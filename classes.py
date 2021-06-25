@@ -1,11 +1,9 @@
 """
 
 Restaurant Management System
+All classes Used in the project
 
 """
-
-from os import system as sys
-sys("cls")
 
 class RESTAURANT:
     def __init__(self, name, address, owner):
@@ -26,7 +24,7 @@ class RESTAURANT:
         self.owner = new_owner 
         
 class ADMIN:
-    def __inint__(self, name, username, password):
+    def __init__(self, name, username, password):
         self.name = name
         self.username = username
         self.password = password
@@ -42,5 +40,45 @@ class ADMIN:
     def changePassword(self, newPassword):
         self.password = newPassword
 
+class EMPLOYEE:
+    def __init__(self, ECode, Name, Username, Password, Salary, DOA):
+        self.Name = Name
+        self.ECode = ECode
+        self.Username = Username
+        self.Password = Password
+        self.Salary = Salary
+        self.DOA = DOA
+    
+    def changePass(self, newPass):
+        self.Password = newPass
+    def changeUsername(self, newUsername):
+        self.Username = newUsername
+    def updateSalary(self, newSalary):
+        self.Salary = newSalary
+    def getName(self):
+        return self.Name
+    def getUsername(self):
+        return self.Username
+    def getPassword(self):
+        return self.Password
+    def getSalary(self):
+        return self.Salary
+    def getDOA(self):
+        return self.DOA
+    def getECode(self):
+        return self.ECode
 
+class ITEM:
+    def __init__(self, ICode, IName, Price):
+        self.ICode = ICode
+        self.IName = IName
+        self.Price = Price
+    def getICode(self):
+        return self.ICode
+    def getIName(self):
+        return self.IName
+    def getPrice(self):
+        return self.Price
+    def updatePrice(self, newPrice):
+        self.Price = newPrice
         
