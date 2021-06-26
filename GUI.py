@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
+import classes 
 
 class Login:
     def __init__(self, root):
@@ -49,6 +50,7 @@ class Login:
         self.password["fg"] = "#333333"
         self.password["text"] = "Password"
         self.password.place(x=160,y=220,width=493,height=30)
+        self.password['show'] = '*'
 
         self.label_username=tk.Label(root)
         self.label_username["font"] = ft
@@ -90,7 +92,7 @@ class Login:
     def logEmp(self):
         tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
             
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = Login(root)
-    root.mainloop()
+# if __name__ == "__main__":
+    # root = tk.Tk()
+    # app = Login(root)
+    # root.mainloop()
