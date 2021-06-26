@@ -6,7 +6,7 @@ class Login:
         
         bg_main = "#d8c3a5"
         btn_bg = "#eae7dc"
-        ft = tkFont.Font(family='Roboto',size=20)
+        ft = tkFont.Font(family='Roboto',size=25)
         
         root.title("Restraunt Management System")
         width=750
@@ -23,8 +23,17 @@ class Login:
         self.name_restraunt["fg"] = "black"
         self.name_restraunt["bg"] = bg_main
         self.name_restraunt["justify"] = "center"
-        self.name_restraunt["text"] = "Name of Restaurant"
-        self.name_restraunt.place(x=10,y=20,width=729,height=31)
+        self.name_restraunt["text"] = "NAME OF RESTAURANT"
+        self.name_restraunt.place(x=10,y=40,width=729,height=30)
+        
+        ft = tkFont.Font(family='Roboto',size=15)
+        self.name_restraunt=tk.Label(root)
+        self.name_restraunt["font"] = ft
+        self.name_restraunt["fg"] = "black"
+        self.name_restraunt["bg"] = bg_main
+        self.name_restraunt["justify"] = "center"
+        self.name_restraunt["text"] = "LOG IN"
+        self.name_restraunt.place(x=10,y=100,width=729,height=30)
         
         ft = tkFont.Font(family='Roboto',size=12, weight = "bold")
         self.username=tk.Entry(root)
@@ -33,7 +42,6 @@ class Login:
         self.username["fg"] = "#333333"
         self.username["text"] = "User Name"
         self.username.place(x=160,y=140,width=494,height=30)
-        self.username["show"] = "undefined"
 
         self.password=tk.Entry(root)
         self.password["borderwidth"] = "1px"
@@ -41,15 +49,6 @@ class Login:
         self.password["fg"] = "#333333"
         self.password["text"] = "Password"
         self.password.place(x=160,y=220,width=493,height=30)
-
-        
-
-        self.type_login=tk.Listbox(root)
-        self.type_login["borderwidth"] = "1px"
-        self.type_login["font"] = ft
-        self.type_login["fg"] = "#333333"
-        self.type_login["justify"] = "center"
-        self.type_login.place(x=220,y=80,width=274,height=30)
 
         self.label_username=tk.Label(root)
         self.label_username["font"] = ft
@@ -72,12 +71,24 @@ class Login:
         self.login_btn["font"] = ft
         self.login_btn["fg"] = "black"
         self.login_btn["justify"] = "center"
-        self.login_btn["text"] = "Login"
-        self.login_btn.place(x=320,y=280,width=120,height=30)
-        self.login_btn["command"] = self.logmein
-
-    def logmein(self):
-        tk.messagebox.showinfo("Logging In", "No Function Attatched")
+        self.login_btn["text"] = "Admin Login"
+        self.login_btn.place(x=200,y=280,width=150,height=30)
+        self.login_btn["command"] = self.logAdmin
+        
+        self.login_btn=tk.Button(root)
+        self.login_btn["bg"] = btn_bg
+        self.login_btn["font"] = ft
+        self.login_btn["fg"] = "black"
+        self.login_btn["justify"] = "center"
+        self.login_btn["text"] = "Employee Login"
+        self.login_btn.place(x=400,y=280,width=150,height=30)
+        self.login_btn["command"] = self.logEmp
+    
+    def logAdmin(self):
+        tk.messagebox.showinfo("Logging In", "Admin Login Invoked")
+            
+    def logEmp(self):
+        tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
             
 if __name__ == "__main__":
     root = tk.Tk()
