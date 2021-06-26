@@ -84,12 +84,12 @@ class Login:
         self.login_btn["justify"] = "center"
         self.login_btn["text"] = "Employee Login"
         self.login_btn.place(x=400,y=280,width=150,height=30)
-        self.login_btn["command"] = self.logEmp
+        self.login_btn["command"] = self.logEMP
     
     def logAdmin(self):
         tk.messagebox.showinfo("Logging In", "Admin Login Invoked")
             
-    def logEmp(self):
+    def logEMP(self):
         tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
             
 # if __name__ == "__main__":
