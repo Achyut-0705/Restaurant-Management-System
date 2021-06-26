@@ -92,7 +92,7 @@ class Login:
     def logEMP(self):
         tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
             
-# if __name__ == "__main__":
-    # root = tk.Tk()
-    # app = Login(root)
-    # root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = Login(root)
+    root.mainloop()
