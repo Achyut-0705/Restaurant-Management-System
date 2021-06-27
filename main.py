@@ -3,24 +3,25 @@ import tkinter.font as tkFont
 from classes import *
 import classes 
 from tkinter import messagebox
-import workflow
 
 class Login:
     def __init__(self, root):
+        
+        self.window = root
         
         bg_main = "#d8c3a5"
         btn_bg = "#eae7dc"
         ft = tkFont.Font(family='Roboto',size=25)
         
-        self.root.title("Restraunt Management System")
+        root.title("Restraunt Management System")
         width=750
         height=320
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        self.root.geometry(alignstr)
-        self.root.resizable(width=False, height=False)
-        self.root.configure(background = bg_main)
+        root.geometry(alignstr)
+        root.resizable(width=False, height=False)
+        root.configure(background = bg_main)
         
         self.name_restraunt=tk.Label(root)
         self.name_restraunt["font"] = ft
@@ -90,26 +91,26 @@ class Login:
         self.login_btn["command"] = self.logEMP
     
     def logAdmin(self):
-        root2 = tk.Tk()
-        app = AdminPanel(root2)
-        self.root.destroy()
-        return root2
+        self.window.destroy()
+        root = tk.Tk()
+        app = AdminPanel(root)
+        root.mainloop()
         
             
     def logEMP(self):
-        tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
+        pass
 
 
 class AdminPanel:
     def __init__(self, root):
-        self.root.title("Admin Panel")
+        root.title("Admin Panel")
         width=1160
         height=615
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        self.root.geometry(alignstr)
-        self.root.resizable(width=False, height=False)
+        root.geometry(alignstr)
+        root.resizable(width=False, height=False)
 
         self.admin=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=80)
@@ -189,3 +190,9 @@ class AdminPanel:
 
     def btn_manage_item_command(self):
         print("command")
+        
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = Login(root)
+    root.mainloop()
