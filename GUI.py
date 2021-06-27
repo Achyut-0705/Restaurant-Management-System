@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
-import classes 
+from classes import *
 
 class Login:
     def __init__(self, root):
@@ -91,7 +91,7 @@ class Login:
             
     def logEMP(self):
         tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
-            
+        
 # if __name__ == "__main__":
     # root = tk.Tk()
     # app = Login(root)
