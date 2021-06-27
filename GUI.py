@@ -1,6 +1,12 @@
 import tkinter as tk
 import tkinter.font as tkFont
+<<<<<<< HEAD
 from classes import *
+=======
+import classes 
+from tkinter import messagebox
+import workflow
+>>>>>>> 8f9da4e89f5801b4661a0128f2e2fde27da2dfe1
 
 class Login:
     def __init__(self, root):
@@ -87,12 +93,109 @@ class Login:
         self.login_btn["command"] = self.logEMP
     
     def logAdmin(self):
-        tk.messagebox.showinfo("Logging In", "Admin Login Invoked")
+        tk.messagebox.showinfo("Logging In", "Admin Login Invoked")  
+        
             
     def logEMP(self):
+<<<<<<< HEAD
         tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
         
 # if __name__ == "__main__":
     # root = tk.Tk()
     # app = Login(root)
     # root.mainloop()
+=======
+        tk.messagebox.showinfo("Logging In", "Employee Login Invoked")  
+
+
+class AdminPanel:
+    def __init__(self, root):
+        root.title("Admin Panel")
+        width=1160
+        height=615
+        screenwidth = root.winfo_screenwidth()
+        screenheight = root.winfo_screenheight()
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        root.geometry(alignstr)
+        root.resizable(width=False, height=False)
+
+        self.admin=tk.Label(root)
+        ft = tkFont.Font(family='Roboto',size=80)
+        self.admin["font"] = ft
+        self.admin["fg"] = "#333333"
+        self.admin["justify"] = "center"
+        self.admin["text"] = "ADMIN MODE"
+        self.admin.place(x=0,y=0,width=1160,height=181)
+
+        self.name=tk.Label(root)
+        ft = tkFont.Font(family='Roboto',size=38)
+        self.name["font"] = ft
+        self.name["fg"] = "#333333"
+        self.name["justify"] = "center"
+        self.name["text"] = "Name:"
+        self.name.place(x=90,y=200,width=156,height=71)
+
+        self.name_admin_panel=tk.Label(root)
+        ft = tkFont.Font(family='Roboto',size=38)
+        self.name_admin_panel["font"] = ft
+        self.name_admin_panel["fg"] = "#333333"
+        self.name_admin_panel["justify"] = "left"
+        self.name_admin_panel["text"] = "Achyut Shukla"
+        self.name_admin_panel.place(x=270,y=200,width=866,height=71)
+
+        self.btn_emp_mng=tk.Button(root)
+        self.btn_emp_mng["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=28)
+        self.btn_emp_mng["font"] = ft
+        self.btn_emp_mng["fg"] = "#000000"
+        self.btn_emp_mng["justify"] = "center"
+        self.btn_emp_mng["text"] = "Manage Employee"
+        self.btn_emp_mng.place(x=420,y=290,width=345,height=62)
+        self.btn_emp_mng["command"] = self.btn_emp_mng_command
+
+        self.btn_reset=tk.Button(root)
+        self.btn_reset["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=28)
+        self.btn_reset["font"] = ft
+        self.btn_reset["fg"] = "#000000"
+        self.btn_reset["justify"] = "center"
+        self.btn_reset["text"] = "Reset Data Base"
+        self.btn_reset.place(x=420,y=470,width=345,height=62)
+        self.btn_reset["command"] = self.btn_reset_command
+
+        self.btn_logout=tk.Button(root)
+        self.btn_logout["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=28)
+        self.btn_logout["font"] = ft
+        self.btn_logout["fg"] = "#000000"
+        self.btn_logout["justify"] = "center"
+        self.btn_logout["text"] = "Log Out"
+        self.btn_logout.place(x=970,y=550,width=157,height=45)
+        self.btn_logout["command"] = self.btn_logout_command
+
+        self.btn_manage_item=tk.Button(root)
+        self.btn_manage_item["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=28)
+        self.btn_manage_item["font"] = ft
+        self.btn_manage_item["fg"] = "#000000"
+        self.btn_manage_item["justify"] = "center"
+        self.btn_manage_item["text"] = "Manage Items"
+        self.btn_manage_item.place(x=420,y=380,width=345,height=62)
+        self.btn_manage_item["command"] = self.btn_manage_item_command
+
+    def btn_emp_mng_command(self):
+        print("command")
+
+
+    def btn_reset_command(self):
+        print("command")
+
+
+    def btn_logout_command(self):
+        print("command")
+
+
+    def btn_manage_item_command(self):
+        print("command")
+
+>>>>>>> 8f9da4e89f5801b4661a0128f2e2fde27da2dfe1
