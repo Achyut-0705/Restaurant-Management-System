@@ -264,7 +264,6 @@ class SalesPanel:
         self.label_name.place(x=250,y=110,width=60,height=30)
 
         self.name_emp=tk.Label(root)
-        # ft = tkFont.Font(family='Times',size=28)
         self.name_emp["font"] = ft
         self.name_emp["fg"] = "#333333"
         self.name_emp["justify"] = "left"
@@ -273,7 +272,6 @@ class SalesPanel:
         self.name_emp.place(x=350,y=100,width=250,height=50)
 
         self.label_username=tk.Label(root)
-        # ft = tkFont.Font(family='Times',size=28)
         self.label_username["font"] = ft
         self.label_username["fg"] = "#333333"
         self.label_username["justify"] = "center"
@@ -282,7 +280,6 @@ class SalesPanel:
         self.label_username.place(x=210,y=155,width=100,height=30)
 
         self.username_emp=tk.Label(root)
-        # ft = tkFont.Font(family='Times',size=28)
         self.username_emp["font"] = ft
         self.username_emp["fg"] = "#333333"
         self.username_emp["justify"] = "left"
@@ -291,7 +288,6 @@ class SalesPanel:
         self.username_emp.place(x=350,y=145,width=250,height=50)
 
         self.label_name_customer=tk.Label(root)
-        # ft = tkFont.Font(family='Times',size=28)
         self.label_name_customer["font"] = ft
         self.label_name_customer["fg"] = "#333333"
         self.label_name_customer["justify"] = "left"
@@ -301,14 +297,12 @@ class SalesPanel:
 
         self.name_customer=tk.Entry(root)
         self.name_customer["borderwidth"] = "1px"
-        # ft = tkFont.Font(family='Times',size=28)
         self.name_customer["font"] = ft
         self.name_customer["fg"] = "#333333"
         self.name_customer["justify"] = "left"
         self.name_customer.place(x=250,y=225,width=600,height=40)
 
         self.label_email=tk.Label(root)
-        # ft = tkFont.Font(family='Times',size=28)
         self.label_email["font"] = ft
         self.label_email["fg"] = "#333333"
         self.label_email["justify"] = "center"
@@ -318,7 +312,6 @@ class SalesPanel:
 
         self.email_customer=tk.Entry(root)
         self.email_customer["borderwidth"] = "1px"
-        # ft = tkFont.Font(family='Times',size=28)
         self.email_customer["font"] = ft
         self.email_customer["fg"] = "#333333"
         self.email_customer["justify"] = "left"
@@ -327,7 +320,6 @@ class SalesPanel:
 
         self.list_item=tk.Listbox(root)
         self.list_item["borderwidth"] = "1px"
-        # ft = tkFont.Font(family='Times',size=28)
         self.list_item["font"] = ft
         self.list_item["fg"] = "#333333"
         self.list_item["justify"] = "left"
@@ -335,7 +327,6 @@ class SalesPanel:
 
         self.btn_add_item=tk.Button(root)
         self.btn_add_item["bg"] = "#efefef"
-        # ft = tkFont.Font(family='Times',size=28)
         self.btn_add_item["font"] = ft
         self.btn_add_item["fg"] = "#000000"
         self.btn_add_item["justify"] = "center"
@@ -346,7 +337,6 @@ class SalesPanel:
 
         self.btn_remove_item=tk.Button(root)
         self.btn_remove_item["bg"] = "#efefef"
-        # ft = tkFont.Font(family='Times',size=28)
         self.btn_remove_item["font"] = ft
         self.btn_remove_item["fg"] = "#000000"
         self.btn_remove_item["justify"] = "center"
