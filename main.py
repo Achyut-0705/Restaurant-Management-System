@@ -162,7 +162,7 @@ class AdminPanel:
         
 
         self.admin=tk.Label(root)
-        ft = tkFont.Font(family='Roboto',size=50,weight = "bold")
+        ft = tkFont.Font(family='Roboto',size=60,weight = "bold")
         self.admin["font"] = ft
         self.admin["fg"] = "#e85a4f"
         self.admin["justify"] = "center"
