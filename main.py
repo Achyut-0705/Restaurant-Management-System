@@ -41,7 +41,7 @@ class Login:
         self.name_restraunt["fg"] = "black"
         self.name_restraunt["bg"] = bg_main
         self.name_restraunt["justify"] = "center"
-        self.name_restraunt["text"] = "LOG IN"
+        self.name_restraunt["text"] = "LOG IN TO CONTINUE"
         self.name_restraunt.place(x=10,y=100,width=729,height=30)
         
         ft = tkFont.Font(family='Roboto',size=12, weight = "bold")
@@ -103,6 +103,8 @@ class Login:
             data = a.fetchone()
             pas = self.password.get()
             if data[2] == pas:
+                global currAdmin
+                currAdmin = ADMIN(data[0], data[1], data[2])
                 tk.messagebox.showinfo("Logged In", "Successfully Logged In")
                 self.window.destroy()
                 root = tk.Tk()
@@ -111,8 +113,7 @@ class Login:
             else:
                 tk.messagebox.showerror("Wrong Credentials", "Username/Password Incorrect")
         except:
-            tk.messagebox.showerror("Record Not Found", "No Such User Found")
-  
+            tk.messagebox.showerror("Record Not Found", "No Such User Found")  
         
     def logEMP(self):
         self.window.destroy()
@@ -141,70 +142,83 @@ class AdminPanel:
         self.admin=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=50,weight = "bold")
         self.admin["font"] = ft
-        self.admin["fg"] = "#333333"
+        self.admin["fg"] = "#e85a4f"
         self.admin["justify"] = "center"
         self.admin["text"] = "ADMIN PANEL"
-        self.admin["bg"] = bg_main
-        self.admin.place(x=0,y=0,width=1160,height=100)
+        self.admin["bg"] = "#565958"
+        self.admin.place(x=0,y=0,width=1160,height=180)
 
-        self.name=tk.Label(root)
-        ft = tkFont.Font(family='Roboto',size=20)
-        self.name["font"] = ft
-        self.name["fg"] = "#333333"
-        self.name["justify"] = "left"
-        self.name["text"] = "Name:"
-        self.name.place(x=90,y=200,width=156,height=71)
 
         self.name_admin_panel=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=20, weight = "bold")
         self.name_admin_panel["font"] = ft
         self.name_admin_panel["fg"] = "#333333"
         self.name_admin_panel["justify"] = "left"
-        self.name_admin_panel["text"] = "Achyut"
-        self.name_admin_panel.place(x=230,y=200,width=200,height=71)
+        self.name_admin_panel["text"] = "Name: " + currAdmin.name
+        self.name_admin_panel["bg"] = bg_main
+        self.name_admin_panel.place(x=100,y=230,width=200)
+
+        self.name_admin_panel=tk.Label(root)
+        ft = tkFont.Font(family='Roboto',size=20, weight = "bold")
+        self.name_admin_panel["font"] = ft
+        self.name_admin_panel["fg"] = "#333333"
+        self.name_admin_panel["justify"] = "left"
+        self.name_admin_panel["text"] = "Username: " + currAdmin.username
+        self.name_admin_panel["bg"] = bg_main
+        self.name_admin_panel.place(x=800,y=230,width=250)
 
         self.btn_emp_mng=tk.Button(root)
-        self.btn_emp_mng["bg"] = "#efefef"
-        ft = tkFont.Font(family='Roboto',size=28)
+        self.btn_emp_mng["bg"] = btn_bg
+        ft = tkFont.Font(family='Roboto',size=18)
         self.btn_emp_mng["font"] = ft
         self.btn_emp_mng["fg"] = "#000000"
         self.btn_emp_mng["justify"] = "center"
-        self.btn_emp_mng["text"] = "Manage Employee"
-        self.btn_emp_mng.place(x=420,y=290,width=400,height=62)
+        self.btn_emp_mng["text"] = "MANAGE EMPLOYEE"
+        self.btn_emp_mng.place(x=650,y=320,width=400,height=62)
         self.btn_emp_mng["command"] = self.btn_emp_mng_command
 
         self.btn_reset=tk.Button(root)
-        self.btn_reset["bg"] = "#efefef"
+        self.btn_reset["bg"] = btn_bg
         
-        ft = tkFont.Font(family='Roboto',size=28, weight = "bold")
+        ft = tkFont.Font(family='Roboto',size=18)
         self.btn_reset["font"] = ft
         self.btn_reset["fg"] = "#000000"
         self.btn_reset["justify"] = "center"
-        self.btn_reset["text"] = "Reset Data Base"
-        self.btn_reset.place(x=420,y=470,width=400,height=62)
+        self.btn_reset["text"] = "RESET DATABASE"
+        self.btn_reset.place(x=100,y=320,width=400,height=62)
         self.btn_reset["command"] = self.btn_reset_command
 
         self.btn_logout=tk.Button(root)
-        self.btn_logout["bg"] = "#efefef"
+        self.btn_logout["bg"] = btn_bg
         
-        ft = tkFont.Font(family='Roboto',size=20, weight = "bold")
+        ft = tkFont.Font(family='Roboto',size=18)
         self.btn_logout["font"] = ft
         self.btn_logout["fg"] = "#000000"
         self.btn_logout["justify"] = "center"
         self.btn_logout["text"] = "LOG OUT"
-        self.btn_logout.place(x=920,y=550,width=200,height=45)
+        self.btn_logout.place(x=440,y=550,width=300,height=45)
         self.btn_logout["command"] = self.btn_logout_command
 
         self.btn_manage_item=tk.Button(root)
-        self.btn_manage_item["bg"] = "#efefef"
+        self.btn_manage_item["bg"] = btn_bg
         
-        ft = tkFont.Font(family='Roboto',size=28, weight = "bold")
+        ft = tkFont.Font(family='Roboto',size=18)
         self.btn_manage_item["font"] = ft
         self.btn_manage_item["fg"] = "#000000"
         self.btn_manage_item["justify"] = "center"
-        self.btn_manage_item["text"] = "Manage Items"
-        self.btn_manage_item.place(x=420,y=380,width=400,height=62)
+        self.btn_manage_item["text"] = "MANAGE ITEMS"
+        self.btn_manage_item.place(x=650,y=430,width=400,height=62)
         self.btn_manage_item["command"] = self.btn_manage_item_command
+        
+        self.btn_reset=tk.Button(root)
+        self.btn_reset["bg"] = btn_bg
+        ft = tkFont.Font(family='Roboto',size=18)
+        self.btn_reset["font"] = ft
+        self.btn_reset["fg"] = "#000000"
+        self.btn_reset["justify"] = "center"
+        self.btn_reset["text"] = "MANAGE ADMIN"
+        self.btn_reset.place(x=100,y=430,width=400,height=62)
+        self.btn_reset["command"] = self.btn_manage_admin_command
 
     def btn_emp_mng_command(self):
         print("command")
@@ -213,17 +227,19 @@ class AdminPanel:
     def btn_reset_command(self):
         print("command")
 
-
     def btn_logout_command(self):
         self.window.destroy()
         root = tk.Tk()
         app = Login(root)
         root.mainloop()
 
-
     def btn_manage_item_command(self):
         print("command")
-        
+    
+    def btn_manage_admin_command(self):
+        print("command")
+
+
 class SalesPanel:
     def __init__(self, root):
         root.title("Sales Panel")
