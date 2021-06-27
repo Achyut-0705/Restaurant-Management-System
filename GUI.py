@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
+from classes import *
 import classes 
 from tkinter import messagebox
 import workflow
@@ -96,7 +97,7 @@ class Login:
         
             
     def logEMP(self):
-        tk.messagebox.showinfo("Logging In", "Employee Login Invoked")  
+        tk.messagebox.showinfo("Logging In", "Employee Login Invoked")
 
 
 class AdminPanel:
@@ -188,4 +189,3 @@ class AdminPanel:
 
     def btn_manage_item_command(self):
         print("command")
-
