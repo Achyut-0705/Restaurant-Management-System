@@ -323,6 +323,7 @@ class SalesPanel:
         self.list_item["font"] = ft
         self.list_item["fg"] = "#333333"
         self.list_item["justify"] = "left"
+        self.list_item["state"] = tk.DISABLED
         self.list_item.place(x=500,y=380,width=374,height=160)
 
         self.btn_add_item=tk.Button(root)
@@ -346,9 +347,9 @@ class SalesPanel:
         self.btn_remove_item["command"] = self.btn_remove_item_command
         
         items = ['maggie','momos','pizza']
-        clicked = tk.StringVar()
-        clicked.set('Select an item')
-        self.item_list = tk.OptionMenu(root,clicked,*items)
+        self.clicked = tk.StringVar()
+        self.clicked.set('Select an item')
+        self.item_list = tk.OptionMenu(root,self.clicked,*items)
         self.item_list['bg'] = btn_bg
         self.item_list['font'] = ft
         self.item_list['menu']['bg'] = btn_bg
