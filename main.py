@@ -8,6 +8,7 @@ class Login:
     def __init__(self, root):
         
         self.window = root
+        self.root = root
         
         bg_main = "#d8c3a5"
         btn_bg = "#eae7dc"
