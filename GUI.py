@@ -11,15 +11,15 @@ class Login:
         btn_bg = "#eae7dc"
         ft = tkFont.Font(family='Roboto',size=25)
         
-        root.title("Restraunt Management System")
+        self.root.title("Restraunt Management System")
         width=750
         height=320
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        root.geometry(alignstr)
-        root.resizable(width=False, height=False)
-        root.configure(background = bg_main)
+        self.root.geometry(alignstr)
+        self.root.resizable(width=False, height=False)
+        self.root.configure(background = bg_main)
         
         self.name_restraunt=tk.Label(root)
         self.name_restraunt["font"] = ft
@@ -89,7 +89,10 @@ class Login:
         self.login_btn["command"] = self.logEMP
     
     def logAdmin(self):
-        tk.messagebox.showinfo("Logging In", "Admin Login Invoked")  
+        root2 = tk.Tk()
+        app = AdminPanel(root2)
+        self.root.destroy()
+        return root2
         
             
     def logEMP(self):
@@ -98,14 +101,14 @@ class Login:
 
 class AdminPanel:
     def __init__(self, root):
-        root.title("Admin Panel")
+        self.root.title("Admin Panel")
         width=1160
         height=615
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        root.geometry(alignstr)
-        root.resizable(width=False, height=False)
+        self.root.geometry(alignstr)
+        self.root.resizable(width=False, height=False)
 
         self.admin=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=80)
