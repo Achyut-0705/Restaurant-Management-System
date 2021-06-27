@@ -207,7 +207,7 @@ class SalesPanel:
         root.resizable(width=False, height=False)
 
         self.empLoginHead=tk.Label(root)
-        ft = tkFont.Font(family='Times',size=115)
+        ft = tkFont.Font(family='Roboto',size=115)
         self.empLoginHead["font"] = ft
         self.empLoginHead["fg"] = "#333333"
         self.empLoginHead["justify"] = "center"
