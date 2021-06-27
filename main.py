@@ -6,6 +6,7 @@ import sqlite3 as sql
 
 myRest = None
 currAdmin = None
+currEmp = None
 bg_main = "#d8c3a5"
 btn_bg = "#eae7dc"
 
@@ -119,10 +120,25 @@ class Login:
             tk.messagebox.showerror("Record Not Found", "No Such User Found")  
         
     def logEMP(self):
-        self.window.destroy()
-        root = tk.Tk()
-        app = SalesPanel(root)
-        root.mainloop()
+        
+        e = empCon.cursor()
+        user = self.username.get()
+        try:
+            e.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
+            data = e.fetchone()
+            pas = self.password.get()
+            if data[3] == pas:
+                global currEmp
+                currEmp = EMPLOYEE(data[0], data[1], data[2], data[3])
+                tk.messagebox.showinfo("Logged In", "Successfully Logged In")
+                self.window.destroy()
+                root = tk.Tk()
+                app = SalesPanel(root)
+                root.mainloop()
+            else:
+                tk.messagebox.showerror("Wrong Credentials", "Username/Password Incorrect")
+        except:
+            tk.messagebox.showerror("Record Not Found", "No Such User Found")
 
 
 class AdminPanel:
