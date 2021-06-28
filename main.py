@@ -524,8 +524,8 @@ class ManageAdmin:
         self.btn_view_report["fg"] = "#000000"
         self.btn_view_report["bg"] = btn_bg
         self.btn_view_report["justify"] = "center"
-        self.btn_view_report["text"] = "View Report"
-        self.btn_view_report.place(x=370,y=120,width=214,height=40)
+        self.btn_view_report["text"] = "View Admin DataBase"
+        self.btn_view_report.place(x=350,y=120,width=270,height=40)
         self.btn_view_report["command"] = self.btn_view_report_command
 
         self.label_add_admin=tk.Label(root)
@@ -655,11 +655,59 @@ class ManageAdmin:
         
 
     def btn_add_command(self):
-        pass
-
-
+        global currAdmin
+        
+        name = self.add_name.get()
+        user = self.add_username.get()
+        pas = self.add_password.get()
+        
+        selfPas = self.admin_confirm_password.get()
+        if len(name) == 0 or len(user) == 0 or len(pas) == 0 or len(selfPas) == 0:
+            tk.messagebox.showerror("Error", "Fields Cannot be Empty")
+        else:
+            c = adminCon.cursor()
+            c.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
+            exist = c.fetchone()
+            if exist == None:
+                if selfPas == currAdmin.password:
+                    choice = messagebox.askyesno("Confirm", "Do you want to proceed?")
+                    if choice:
+                        a = adminCon.cursor()
+                        a.execute("INSERT INTO admin VALUES (?, ?, ?)", (name, user, pas))
+                        adminCon.commit()
+                        messagebox.showinfo("Success!", "New Admin Succesfully Created")                   
+                else:
+                    tk.messagebox.showerror("Error", "Wrong Password")
+            else:
+                messagebox.showerror("Error", "Admin with username exists already!")
     def btn_delete_command(self):
-        pass
+        global currAdmin
+        
+        user = self.delete_username.get()
+        selfPas = self.admin_confirm_password.get()
+        
+        if len(user) == 0 or len(selfPas) == 0:
+            tk.messagebox.showerror("Error", "Fields Cannot be Empty")
+        else:
+            c = adminCon.cursor()
+            c.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
+            exist = c.fetchone()
+            
+            if exist != None:
+                if currAdmin.username == exist[1]:
+                    messagebox.showerror("Error!", "Admin Logged in currently. Can not proceed")
+                else:
+                    if selfPas == currAdmin.password:
+                        choice = messagebox.askyesno("Confirm", "Do you want to proceed?")
+                        if choice:
+                            a = adminCon.cursor()
+                            a.execute("DELETE FROM admin WHERE username = (?)", (user, ))
+                            adminCon.commit()
+                            messagebox.showinfo("Success!", "Admin Records Deleted")                   
+                    else:
+                        tk.messagebox.showerror("Error", "Wrong Password")
+            else:
+                messagebox.showerror("Error", "Admin with username does not exist!")
     
         
     def btn_view_report_command(self):
