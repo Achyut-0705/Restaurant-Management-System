@@ -266,9 +266,11 @@ class SalesPanel:
     def __init__(self, root):
         global bg_main
         global btn_bg
+        global currEmp
+        
         root.title("Sales Panel")
-        width=900
-        height=570
+        width=1280
+        height=720
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
@@ -280,67 +282,52 @@ class SalesPanel:
         self.empLoginHead=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=50,weight = "bold")
         self.empLoginHead["font"] = ft
-        self.empLoginHead["fg"] = "#333333"
+        self.empLoginHead["fg"] = "#e85a4f"
         self.empLoginHead["justify"] = "center"
-        self.empLoginHead["bg"] = bg_main
-        self.empLoginHead["text"] = "Place an order !"
-        self.empLoginHead.place(x=200,y=30,width=500,height=50)
+        self.empLoginHead["bg"] = "#565958"
+        self.empLoginHead["text"] = "PLACE AN ORDER!"
+        self.empLoginHead.place(x=0,y=0,width=1280,height=150)
 
-        self.label_name=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=15, weight = "bold")
-        self.label_name["font"] = ft
-        self.label_name["fg"] = "#333333"
-        self.label_name["justify"] = "center"
-        self.label_name["bg"] = bg_main
-        self.label_name["text"] = "Name:"
-        self.label_name.place(x=250,y=110,width=60,height=30)
 
         self.name_emp=tk.Label(root)
         self.name_emp["font"] = ft
         self.name_emp["fg"] = "#333333"
         self.name_emp["justify"] = "left"
         self.name_emp["bg"] = bg_main
-        self.name_emp["text"] = "Achyut Shukla"
-        self.name_emp.place(x=350,y=100,width=250,height=50)
-
-        self.label_username=tk.Label(root)
-        self.label_username["font"] = ft
-        self.label_username["fg"] = "#333333"
-        self.label_username["justify"] = "center"
-        self.label_username["bg"] = bg_main
-        self.label_username["text"] = "Username:"
-        self.label_username.place(x=210,y=155,width=100,height=30)
+        self.name_emp["text"] = "Name: " + currEmp.Name
+        self.name_emp.place(x=400,y=160,width=250,height=50)
 
         self.username_emp=tk.Label(root)
         self.username_emp["font"] = ft
         self.username_emp["fg"] = "#333333"
         self.username_emp["justify"] = "left"
         self.username_emp["bg"] = bg_main
-        self.username_emp["text"] = "Achyut007"
-        self.username_emp.place(x=350,y=145,width=250,height=50)
+        self.username_emp["text"] = "Username: " + currEmp.Username
+        self.username_emp.place(x=650,y=160,width=250,height=50)
 
         self.label_name_customer=tk.Label(root)
         self.label_name_customer["font"] = ft
         self.label_name_customer["fg"] = "#333333"
         self.label_name_customer["justify"] = "left"
         self.label_name_customer["bg"] = bg_main
-        self.label_name_customer["text"] = "Enter Customer Name:"
-        self.label_name_customer.place(x=35,y=220,width=200,height=54)
+        self.label_name_customer["text"] = "Customer Name:"
+        self.label_name_customer.place(x=35,y=250,width=200,height=54)
 
         self.name_customer=tk.Entry(root)
         self.name_customer["borderwidth"] = "1px"
         self.name_customer["font"] = ft
         self.name_customer["fg"] = "#333333"
         self.name_customer["justify"] = "left"
-        self.name_customer.place(x=250,y=225,width=600,height=40)
+        self.name_customer.place(x=250,y=255, width=400,height=35)
 
         self.label_email=tk.Label(root)
         self.label_email["font"] = ft
         self.label_email["fg"] = "#333333"
         self.label_email["justify"] = "center"
         self.label_email["bg"] = bg_main
-        self.label_email["text"] = "Enter E-mail ID:"
-        self.label_email.place(x=53,y=290,width=229,height=48)
+        self.label_email["text"] = "E-mail ID:"
+        self.label_email.place(x=600,y=250,width=230,height=48)
 
         self.email_customer=tk.Entry(root)
         self.email_customer["borderwidth"] = "1px"
@@ -348,7 +335,7 @@ class SalesPanel:
         self.email_customer["fg"] = "#333333"
         self.email_customer["justify"] = "left"
         self.email_customer["text"] = ""
-        self.email_customer.place(x=250,y=290,width=600,height=40)
+        self.email_customer.place(x=830,y=255,width=400,height=35)
 
         self.list_item=tk.Listbox(root)
         self.list_item["borderwidth"] = "1px"
