@@ -1,4 +1,4 @@
-# import os
+#import os
 #Set value of chdir to path of local repository.
 #os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
@@ -61,6 +61,7 @@ class Login:
         self.username["fg"] = "#333333"
         self.username["text"] = "User Name"
         self.username.place(x=160,y=140,width=494,height=30)
+        self.username.focus()
 
         self.password=tk.Entry(root)
         self.password["borderwidth"] = "1px"
@@ -226,7 +227,6 @@ class AdminPanel:
 
         self.btn_manage_item=tk.Button(root)
         self.btn_manage_item["bg"] = btn_bg        
-        ft = tkFont.Font(family='Roboto',size=18)
         self.btn_manage_item["font"] = ft
         self.btn_manage_item["fg"] = "#000000"
         self.btn_manage_item["justify"] = "center"
@@ -260,8 +260,10 @@ class AdminPanel:
         pass
     
     def btn_manage_admin_command(self):
+        self.window.destroy()
         root = tk.Tk()
         app = ManageAdmin(root)
+        root.focus_force()
         root.mainloop()
         
 
@@ -482,6 +484,7 @@ class SalesPanel:
         self.root.destroy()
         root = tk.Tk()
         app = Login(root)
+        root.focus_force()
         root.mainloop()
 
 class ManageAdmin:
@@ -490,6 +493,8 @@ class ManageAdmin:
         global btn_bg
         global bg_panel
         global fg_panel
+        
+        self.window = root
         root.title("Manage Admin Panel")
         width=988
         height=600
@@ -582,6 +587,7 @@ class ManageAdmin:
         self.add_name["justify"] = "left"
         self.add_name["text"] = ""
         self.add_name.place(x=190,y=230,width=250,height=33)
+        self.add_name.focus()
         
         self.delete_username=tk.Entry(root)
         self.delete_username["borderwidth"] = "1px"
@@ -641,6 +647,17 @@ class ManageAdmin:
         self.btn_delete["text"] = "Delete"
         self.btn_delete.place(x=500,y=530,width=180,height=30)
         self.btn_delete["command"] = self.btn_delete_command
+        
+        self.btn_gb=tk.Button(root)
+        self.btn_gb["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=18)
+        self.btn_gb["font"] = ft
+        self.btn_gb["fg"] = "#000000"
+        self.btn_gb["bg"] = btn_bg
+        self.btn_gb["justify"] = "center"
+        self.btn_gb["text"] = "Go Back"
+        self.btn_gb.place(x=25,y=125,width=120,height=30)
+        self.btn_gb["command"] = self.btn_go_back
 
     def btn_add_command(self):
         pass
@@ -648,7 +665,12 @@ class ManageAdmin:
 
     def btn_delete_command(self):
         pass
-        
+    
+    def btn_go_back(self):
+        self.window.destroy()
+        root = tk.Tk()
+        app = AdminPanel(root)
+        root.mainloop()
         
 if __name__ == "__main__":    
     adminCon = sql.connect("SampleData/admin.db")
@@ -664,8 +686,7 @@ if __name__ == "__main__":
     
     root = tk.Tk()
     app = Login(root)
-    root.attributes('-topmost',1)
-    
+    root.focus_force()
     ico = tk.PhotoImage(file = 'icon\icon2.png')
     root.iconphoto(True, ico)
     root.mainloop()
