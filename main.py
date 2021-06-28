@@ -385,6 +385,7 @@ class SalesPanel:
         self.item_list['bg'] = btn_bg
         self.item_list['font'] = ft
         self.item_list['menu']['bg'] = btn_bg
+        self.item_list.config(width = 400)
         self.item_list.place(x=50,y=350,width=400,height=50)
 
     def btn_add_item_command(self):
