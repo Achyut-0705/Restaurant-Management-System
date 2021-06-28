@@ -4,13 +4,15 @@ bg_main = "#d8c3a5"
 btn_bg = "#eae7dc"
 bg_panel = "#565958"
 fg_panel = "#e85a4f"
-class ManageAdmin:
+class ManageEmployee:
     def __init__(self, root):
         global bg_main
         global btn_bg
         global bg_panel
         global fg_panel
-        root.title("Manage Admin Panel")
+        
+        self.window = root
+        root.title("Manage Employee Panel")
         width=988
         height=600
         screenwidth = root.winfo_screenwidth()
@@ -26,24 +28,26 @@ class ManageAdmin:
         self.manage_admin_head["fg"] = fg_panel
         self.manage_admin_head["bg"] = bg_panel
         self.manage_admin_head["justify"] = "center"
-        self.manage_admin_head["text"] = "Manage Admin"
+        self.manage_admin_head["text"] = "Manage Employee"
         self.manage_admin_head.place(x=0,y=0,width=990,height=110)
-
-        self.manage_admin_view=tk.Label(root)
-        ft = tkFont.Font(family='Roboto',size=20, weight = "bold")
-        self.manage_admin_view["font"] = ft
-        self.manage_admin_view["fg"] = "#333333"
-        self.manage_admin_view["bg"] = bg_main
-        self.manage_admin_view["justify"] = "center"
-        self.manage_admin_view["text"] = "View Records"
-        self.manage_admin_view.place(x=370,y=110,width=214,height=40)
+        
+        self.btn_view_report=tk.Button(root)
+        self.btn_view_report["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=18)
+        self.btn_view_report["font"] = ft
+        self.btn_view_report["fg"] = "#000000"
+        self.btn_view_report["bg"] = btn_bg
+        self.btn_view_report["justify"] = "center"
+        self.btn_view_report["text"] = "View Report"
+        self.btn_view_report.place(x=370,y=120,width=214,height=40)
+        self.btn_view_report["command"] = self.btn_view_report_command
 
         self.label_add_admin=tk.Label(root)
         self.label_add_admin["font"] = ft
         self.label_add_admin["fg"] = "#333333"
         self.label_add_admin["bg"] = bg_main
         self.label_add_admin["justify"] = "center"
-        self.label_add_admin["text"] = "Add Admin"
+        self.label_add_admin["text"] = "Add Employee"
         self.label_add_admin.place(x=160,y=150,width=189,height=50)
 
         self.label_delete=tk.Label(root)
@@ -51,7 +55,7 @@ class ManageAdmin:
         self.label_delete["fg"] = "#333333"
         self.label_delete["bg"] = bg_main
         self.label_delete["justify"] = "center"
-        self.label_delete["text"] = "Delete Admin"
+        self.label_delete["text"] = "Delete Employee"
         self.label_delete.place(x=630,y=150,width=237,height=52)
 
         self.label_add_name=tk.Label(root)
@@ -102,6 +106,7 @@ class ManageAdmin:
         self.add_name["justify"] = "left"
         self.add_name["text"] = ""
         self.add_name.place(x=190,y=230,width=250,height=33)
+        self.add_name.focus()
         
         self.delete_username=tk.Entry(root)
         self.delete_username["borderwidth"] = "1px"
@@ -161,15 +166,34 @@ class ManageAdmin:
         self.btn_delete["text"] = "Delete"
         self.btn_delete.place(x=500,y=530,width=180,height=30)
         self.btn_delete["command"] = self.btn_delete_command
+        
+        self.btn_gb=tk.Button(root)
+        self.btn_gb["bg"] = "#efefef"
+        ft = tkFont.Font(family='Roboto',size=18)
+        self.btn_gb["font"] = ft
+        self.btn_gb["fg"] = "#000000"
+        self.btn_gb["bg"] = btn_bg
+        self.btn_gb["justify"] = "center"
+        self.btn_gb["text"] = "<--"
+        self.btn_gb.place(x=25,y=125,width=80,height=30)
+        self.btn_gb["command"] = self.btn_go_back
 
     def btn_add_command(self):
-        print("command")
+        pass
 
+    def btn_view_report_command(self):
+        pass
 
     def btn_delete_command(self):
-        print("command")
+        pass
+    
+    def btn_go_back(self):
+        self.window.destroy()
+        root = tk.Tk()
+        app = AdminPanel(root)
+        root.mainloop()
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = ManageAdmin(root)
+    app = ManageEmployee(root)
     root.mainloop()
