@@ -7,6 +7,7 @@ import tkinter.font as tkFont
 from classes import RESTAURANT, ITEM, ADMIN, EMPLOYEE
 from tkinter import messagebox
 import sqlite3 as sql
+from tkinter import Toplevel
 
 myRest = None
 currAdmin = None
@@ -260,11 +261,9 @@ class AdminPanel:
         pass
     
     def btn_manage_admin_command(self):
-        self.window.destroy()
-        root = tk.Tk()
-        app = ManageAdmin(root)
-        root.focus_force()
-        root.mainloop()
+        top = Toplevel(self.window)
+        app = ManageAdmin(top)
+        top.mainloop()
         
 
 class SalesPanel:
@@ -648,16 +647,6 @@ class ManageAdmin:
         self.btn_delete.place(x=500,y=530,width=180,height=30)
         self.btn_delete["command"] = self.btn_delete_command
         
-        self.btn_gb=tk.Button(root)
-        self.btn_gb["bg"] = "#efefef"
-        ft = tkFont.Font(family='Roboto',size=18)
-        self.btn_gb["font"] = ft
-        self.btn_gb["fg"] = "#000000"
-        self.btn_gb["bg"] = btn_bg
-        self.btn_gb["justify"] = "center"
-        self.btn_gb["text"] = "Go Back"
-        self.btn_gb.place(x=25,y=125,width=120,height=30)
-        self.btn_gb["command"] = self.btn_go_back
 
     def btn_add_command(self):
         pass
@@ -666,11 +655,6 @@ class ManageAdmin:
     def btn_delete_command(self):
         pass
     
-    def btn_go_back(self):
-        self.window.destroy()
-        root = tk.Tk()
-        app = AdminPanel(root)
-        root.mainloop()
         
 if __name__ == "__main__":    
     adminCon = sql.connect("SampleData/admin.db")
@@ -686,6 +670,7 @@ if __name__ == "__main__":
     
     root = tk.Tk()
     app = Login(root)
+    root.attributes('-topmost',1)
     root.focus_force()
     ico = tk.PhotoImage(file = 'icon\icon2.png')
     root.iconphoto(True, ico)
