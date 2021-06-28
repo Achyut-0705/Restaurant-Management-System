@@ -1,6 +1,6 @@
-#import os
+import os
 #Set value of chdir to path of local repository.
-#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 import tkinter.font as tkFont
@@ -259,6 +259,7 @@ class AdminPanel:
         self.window.destroy()
         root = tk.Tk()
         app = Login(root)
+        root.focus_force()
         root.mainloop()
 
     def btn_manage_item_command(self):
@@ -278,7 +279,6 @@ class SalesPanel:
         global currEmp
         
         self.root = root
-        
         root.title("Sales Panel")
         width=1280
         height=720
@@ -323,6 +323,7 @@ class SalesPanel:
         self.label_name_customer["bg"] = bg_main
         self.label_name_customer["text"] = "Customer Name:"
         self.label_name_customer.place(x=35,y=250,width=200,height=54)
+        
 
         self.name_customer=tk.Entry(root)
         self.name_customer["borderwidth"] = "1px"
@@ -330,6 +331,7 @@ class SalesPanel:
         self.name_customer["fg"] = "#333333"
         self.name_customer["justify"] = "left"
         self.name_customer.place(x=250,y=260, width=400,height=35)
+        self.name_customer.focus()
 
         self.label_email=tk.Label(root)
         self.label_email["font"] = ft
