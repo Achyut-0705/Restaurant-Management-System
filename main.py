@@ -1,4 +1,4 @@
-import os
+# import os
 #Set value of chdir to path of local repository.
 #os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
@@ -248,7 +248,7 @@ class AdminPanel:
 
 
     def btn_reset_command(self):
-        print("command")
+        pass
 
     def btn_logout_command(self):
         self.window.destroy()
@@ -257,13 +257,13 @@ class AdminPanel:
         root.mainloop()
 
     def btn_manage_item_command(self):
-        print("command")
+        pass
     
     def btn_manage_admin_command(self):
         root = tk.Tk()
         app = ManageAdmin(root)
         root.mainloop()
-
+        
 
 class SalesPanel:
     def __init__(self, root):
@@ -281,8 +281,7 @@ class SalesPanel:
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
-        root.resizable(width=False, height=False)
-        
+        root.resizable(width=False, height=False)        
         root.configure(background = bg_main)
 
         self.empLoginHead=tk.Label(root)
@@ -485,7 +484,6 @@ class SalesPanel:
         app = Login(root)
         root.mainloop()
 
-        
 class ManageAdmin:
     def __init__(self, root):
         global bg_main
@@ -645,15 +643,14 @@ class ManageAdmin:
         self.btn_delete["command"] = self.btn_delete_command
 
     def btn_add_command(self):
-        print("command")
+        pass
 
 
     def btn_delete_command(self):
-        print("command")
-
-if __name__ == "__main__":
-    
-    
+        pass
+        
+        
+if __name__ == "__main__":    
     adminCon = sql.connect("SampleData/admin.db")
     restCon = sql.connect("SampleData/rest.db")
     empCon = sql.connect("SampleData/emp.db")
@@ -668,6 +665,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = Login(root)
     root.attributes('-topmost',1)
+    
     ico = tk.PhotoImage(file = 'icon\icon2.png')
     root.iconphoto(True, ico)
     root.mainloop()
