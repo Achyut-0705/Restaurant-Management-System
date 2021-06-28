@@ -1,3 +1,7 @@
+import os
+#Set value of chdir to path of local repository.
+#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+
 import tkinter as tk
 import tkinter.font as tkFont
 from classes import RESTAURANT, ITEM, ADMIN, EMPLOYEE
@@ -400,6 +404,9 @@ if __name__ == "__main__":
     
     root = tk.Tk()
     app = Login(root)
+    root.attributes('-topmost',1)
+    ico = tk.PhotoImage(file = 'icon\icon2.png')
+    root.iconphoto(True, ico)
     root.mainloop()
     
     adminCon.close()
