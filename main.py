@@ -11,6 +11,7 @@ import sqlite3 as sql
 myRest = None
 currAdmin = None
 currEmp = None
+
 bg_main = "#d8c3a5"
 btn_bg = "#eae7dc"
 bg_panel = "#565958"
@@ -175,7 +176,6 @@ class AdminPanel:
         self.admin["bg"] = "#565958"
         self.admin.place(x=0,y=0,width=1160,height=180)
 
-
         self.name_admin_panel=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=20, weight = "bold")
         self.name_admin_panel["font"] = ft
@@ -267,9 +267,12 @@ class AdminPanel:
 
 class SalesPanel:
     def __init__(self, root):
+        
         global bg_main
         global btn_bg
         global currEmp
+        
+        self.root = root
         
         root.title("Sales Panel")
         width=1280
@@ -322,7 +325,7 @@ class SalesPanel:
         self.name_customer["font"] = ft
         self.name_customer["fg"] = "#333333"
         self.name_customer["justify"] = "left"
-        self.name_customer.place(x=250,y=255, width=400,height=35)
+        self.name_customer.place(x=250,y=260, width=400,height=35)
 
         self.label_email=tk.Label(root)
         self.label_email["font"] = ft
@@ -338,7 +341,7 @@ class SalesPanel:
         self.email_customer["fg"] = "#333333"
         self.email_customer["justify"] = "left"
         self.email_customer["text"] = ""
-        self.email_customer.place(x=830,y=255,width=400,height=35)
+        self.email_customer.place(x=830,y=260,width=400,height=35)
 
         self.list_item=tk.Listbox(root)
         self.list_item["borderwidth"] = "1px"
@@ -346,7 +349,7 @@ class SalesPanel:
         self.list_item["fg"] = "#333333"
         self.list_item["justify"] = "left"
         self.list_item["state"] = tk.DISABLED
-        self.list_item.place(x=500,y=380,width=374,height=160)
+        self.list_item.place(x=500,y=350,width=374,height=267)
 
         self.btn_add_item=tk.Button(root)
         self.btn_add_item["bg"] = "#efefef"
@@ -364,25 +367,124 @@ class SalesPanel:
         self.btn_remove_item["fg"] = "#000000"
         self.btn_remove_item["justify"] = "center"
         self.btn_remove_item["bg"] = btn_bg
-        self.btn_remove_item["text"] = "Remove"
+        self.btn_remove_item["text"] = "Clear Items"
         self.btn_remove_item.place(x=50,y=500,width=400,height=50)
         self.btn_remove_item["command"] = self.btn_remove_item_command
         
-        items = ['maggie','momos','pizza']
+        ft = tkFont.Font(family='Roboto',size=15, weight = "bold")
+        items = ['maggie','momos','pizza', 'maggie','momos','pizza', 'maggie','momos','pizza']
         self.clicked = tk.StringVar()
-        self.clicked.set('Select an item')
+        self.clicked.set('Choose')
         self.item_list = tk.OptionMenu(root,self.clicked,*items)
         self.item_list['bg'] = btn_bg
         self.item_list['font'] = ft
         self.item_list['menu']['bg'] = btn_bg
         self.item_list.config(width = 400)
-        self.item_list.place(x=50,y=350,width=400,height=50)
-
+        self.item_list.place(x=50,y=350,width=200,height=50)
+        
+        ft = tkFont.Font(family='Roboto',size=13, weight = "bold")
+        menu = root.nametowidget(self.item_list.menuname)
+        menu.config(font=ft)
+        
+        ft = tkFont.Font(family='Roboto',size=15, weight = "bold")
+        items = [1, 2, 3, 4, 5]
+        self.clicked = tk.IntVar()
+        self.clicked.set("QTY")
+        self.item_list = tk.OptionMenu(root,self.clicked,*items)
+        self.item_list['bg'] = btn_bg
+        self.item_list['font'] = ft
+        self.item_list['menu']['bg'] = btn_bg
+        self.item_list.config(width = 400)
+        self.item_list.place(x=260,y=350,width=196,height=50)
+        
+        ft = tkFont.Font(family='Roboto',size=13, weight = "bold")
+        menu = root.nametowidget(self.item_list.menuname)
+        menu.config(font=ft)
+        
+        ft = tkFont.Font(family='Roboto',size=15, weight = "bold")
+        self.btn_new_order=tk.Button(root)
+        self.btn_new_order["bg"] = "#efefef"
+        self.btn_new_order["font"] = ft
+        self.btn_new_order["fg"] = "#000000"
+        self.btn_new_order["justify"] = "center"
+        self.btn_new_order["bg"] = btn_bg
+        self.btn_new_order["text"] = "New Order"
+        self.btn_new_order.place(x=50,y=570,width=400,height=50)
+        self.btn_new_order["command"] = self.btn_new_order_command
+        
+        self.btn_prev_order=tk.Button(root)
+        self.btn_prev_order["bg"] = "#efefef"
+        self.btn_prev_order["font"] = ft
+        self.btn_prev_order["fg"] = "#000000"
+        self.btn_prev_order["justify"] = "center"
+        self.btn_prev_order["bg"] = btn_bg
+        self.btn_prev_order["text"] = "View Previous Orders"
+        self.btn_prev_order.place(x=50,y=640,width=400,height=50)
+        self.btn_prev_order["command"] = self.btn_prev_order_command
+        
+        self.btn_gen_receipt=tk.Button(root)
+        self.btn_gen_receipt["bg"] = "#efefef"
+        self.btn_gen_receipt["font"] = ft
+        self.btn_gen_receipt["fg"] = "#000000"
+        self.btn_gen_receipt["justify"] = "center"
+        self.btn_gen_receipt["bg"] = btn_bg
+        self.btn_gen_receipt["text"] = "Generate Receipt"
+        self.btn_gen_receipt.place(x=500,y=640,width=380,height=50)
+        self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
+        
+        self.receipt=tk.Label(root)
+        self.receipt["font"] = ft
+        self.receipt["fg"] = "white"
+        self.receipt["justify"] = "center"
+        self.receipt["bg"] = bg_panel
+        self.receipt["text"] = "RECEIPT"
+        self.receipt.place(x=900,y=350,width=330,height=267)
+        
+        self.btn_print=tk.Button(root)
+        self.btn_print["bg"] = "#efefef"
+        self.btn_print["font"] = ft
+        self.btn_print["fg"] = "#000000"
+        self.btn_print["justify"] = "center"
+        self.btn_print["bg"] = btn_bg
+        self.btn_print["text"] = "Print Receipt"
+        self.btn_print.place(x=900,y=640,width=160,height=50)
+        self.btn_print["command"] = self.btn_print_command
+        
+        self.btn_logout=tk.Button(root)
+        self.btn_logout["bg"] = "#efefef"
+        self.btn_logout["font"] = ft
+        self.btn_logout["fg"] = "#000000"
+        self.btn_logout["justify"] = "center"
+        self.btn_logout["bg"] = btn_bg
+        self.btn_logout["text"] = "Log Out"
+        self.btn_logout.place(x=1070,y=640,width=160,height=50)
+        self.btn_logout["command"] = self.btn_logout_command
+        
+        
     def btn_add_item_command(self):
         pass
 
     def btn_remove_item_command(self):
         pass
+    
+    def btn_new_order_command(self):
+        pass
+    
+    def btn_prev_order_command(self):
+        pass
+    
+    def btn_gen_receipt_command(self):
+        pass
+    
+    def btn_print_command(self):
+        pass
+    
+    def btn_logout_command(self):
+        self.root.destroy()
+        root = tk.Tk()
+        app = Login(root)
+        root.mainloop()
+
         
 class ManageAdmin:
     def __init__(self, root):
