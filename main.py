@@ -8,6 +8,9 @@ from classes import RESTAURANT, ITEM, ADMIN, EMPLOYEE
 from tkinter import messagebox
 import sqlite3 as sql
 from tkinter import Toplevel
+import webbrowser
+import time
+
 
 myRest = None
 currAdmin = None
@@ -711,7 +714,33 @@ class ManageAdmin:
     
         
     def btn_view_report_command(self):
-        pass
+        
+        c = adminCon.cursor()
+        c.execute("SELECT name, username FROM admin")
+        data = c.fetchall()
+        htmlContent = """<html> 
+        <head> 
+            <title> Admin Database </title> 
+            <style> table, th, tr 
+                { border: 1px solid black; font-size: 20px; padding: 5px;}
+            </style> 
+        </head> 
+        <body> 
+        <table>
+            <tr>
+                <th> NAME </th>
+                <th> USERNAME </th>
+            </tr>
+        """
+        file = open("adminData.html", "w")
+        file.write(htmlContent)
+        for record in data:
+            code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th> </tr>"
+            file.write(code)
+        file.write("</table> </body> </html>")
+        file.close()
+        
+        webbrowser.open_new_tab("adminData.html")
         
 class ManageEmployee:
     def __init__(self, root):
@@ -888,10 +917,16 @@ class ManageEmployee:
     
     
 if __name__ == "__main__":    
-    adminCon = sql.connect("SampleData/admin.db")
-    restCon = sql.connect("SampleData/rest.db")
-    empCon = sql.connect("SampleData/emp.db")
-    itemCon = sql.connect("SampleData/item.db")
+    
+    adminFile = "SampleData/admin.db"
+    restFile = "SampleData/rest.db"
+    empFile = "SampleData/emp.db"
+    itemFile = "SampleData/item.db"
+    
+    adminCon = sql.connect(adminFile)
+    restCon = sql.connect(restFile)
+    empCon = sql.connect(empFile)
+    itemCon = sql.connect(itemFile)
     
     #reading restaurant details
     r = restCon.cursor()
