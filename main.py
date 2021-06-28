@@ -655,8 +655,8 @@ class ManageAdmin:
         self.btn_gb["fg"] = "#000000"
         self.btn_gb["bg"] = btn_bg
         self.btn_gb["justify"] = "center"
-        self.btn_gb["text"] = "Go Back"
-        self.btn_gb.place(x=25,y=125,width=120,height=30)
+        self.btn_gb["text"] = "<--"
+        self.btn_gb.place(x=25,y=125,width=80,height=30)
         self.btn_gb["command"] = self.btn_go_back
 
     def btn_add_command(self):
