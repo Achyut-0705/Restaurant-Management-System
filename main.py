@@ -1,6 +1,6 @@
-#import os
+import os
 #Set value of chdir to path of local repository.
-#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 import tkinter.font as tkFont
@@ -247,10 +247,9 @@ class AdminPanel:
         self.btn_reset["command"] = self.btn_manage_admin_command
 
     def btn_emp_mng_command(self):
-        self.window.destroy()
-        root = tk.Tk()
-        app = ManageEmployee(root)
-        root.mainloop()
+        top = Toplevel(self.window)
+        app = ManageEmployee(top)
+        top.mainloop()
 
 
     def btn_reset_command(self):
@@ -829,16 +828,6 @@ class ManageEmployee:
         self.btn_delete.place(x=500,y=530,width=180,height=30)
         self.btn_delete["command"] = self.btn_delete_command
         
-        self.btn_gb=tk.Button(root)
-        self.btn_gb["bg"] = "#efefef"
-        ft = tkFont.Font(family='Roboto',size=18)
-        self.btn_gb["font"] = ft
-        self.btn_gb["fg"] = "#000000"
-        self.btn_gb["bg"] = btn_bg
-        self.btn_gb["justify"] = "center"
-        self.btn_gb["text"] = "<--"
-        self.btn_gb.place(x=25,y=125,width=80,height=30)
-        self.btn_gb["command"] = self.btn_go_back
 
     def btn_add_command(self):
         pass
@@ -849,12 +838,7 @@ class ManageEmployee:
     def btn_delete_command(self):
         pass
     
-    def btn_go_back(self):
-        self.window.destroy()
-        root = tk.Tk()
-        app = AdminPanel(root)
-        root.mainloop()
-        
+    
 if __name__ == "__main__":    
     adminCon = sql.connect("SampleData/admin.db")
     restCon = sql.connect("SampleData/rest.db")
