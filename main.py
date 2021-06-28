@@ -9,6 +9,8 @@ currAdmin = None
 currEmp = None
 bg_main = "#d8c3a5"
 btn_bg = "#eae7dc"
+bg_panel = "#565958"
+fg_panel = "#e85a4f"
 
 class Login:
     def __init__(self, root):
@@ -32,11 +34,11 @@ class Login:
         ft = tkFont.Font(family='Roboto',size=30, weight = "bold")
         self.name_restraunt=tk.Label(root)
         self.name_restraunt["font"] = ft
-        self.name_restraunt["fg"] = "black"
-        self.name_restraunt["bg"] = bg_main
+        self.name_restraunt["fg"] = fg_panel
+        self.name_restraunt["bg"] = bg_panel
         self.name_restraunt["justify"] = "center"
         self.name_restraunt["text"] = myRest.name.upper()
-        self.name_restraunt.place(x=10,y=40,width=729,height=30)
+        self.name_restraunt.place(x=0,y=0,width=750,height=80)
         
         ft = tkFont.Font(family='Roboto',size=15, weight = "bold")
         self.name_restraunt=tk.Label(root)
@@ -282,9 +284,9 @@ class SalesPanel:
         self.empLoginHead=tk.Label(root)
         ft = tkFont.Font(family='Roboto',size=50,weight = "bold")
         self.empLoginHead["font"] = ft
-        self.empLoginHead["fg"] = "#e85a4f"
+        self.empLoginHead["fg"] = fg_panel
         self.empLoginHead["justify"] = "center"
-        self.empLoginHead["bg"] = "#565958"
+        self.empLoginHead["bg"] = bg_panel
         self.empLoginHead["text"] = "PLACE AN ORDER!"
         self.empLoginHead.place(x=0,y=0,width=1280,height=150)
 
