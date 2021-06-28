@@ -275,6 +275,8 @@ class SalesPanel:
         global btn_bg
         global currEmp
         
+        self.root = root
+        
         root.title("Sales Panel")
         width=1280
         height=720
@@ -448,8 +450,18 @@ class SalesPanel:
         self.btn_print["justify"] = "center"
         self.btn_print["bg"] = btn_bg
         self.btn_print["text"] = "Print Receipt"
-        self.btn_print.place(x=900,y=640,width=330,height=50)
+        self.btn_print.place(x=900,y=640,width=160,height=50)
         self.btn_print["command"] = self.btn_print_command
+        
+        self.btn_logout=tk.Button(root)
+        self.btn_logout["bg"] = "#efefef"
+        self.btn_logout["font"] = ft
+        self.btn_logout["fg"] = "#000000"
+        self.btn_logout["justify"] = "center"
+        self.btn_logout["bg"] = btn_bg
+        self.btn_logout["text"] = "Log Out"
+        self.btn_logout.place(x=1070,y=640,width=160,height=50)
+        self.btn_logout["command"] = self.btn_logout_command
         
         
     def btn_add_item_command(self):
@@ -469,6 +481,13 @@ class SalesPanel:
     
     def btn_print_command(self):
         pass
+    
+    def btn_logout_command(self):
+        self.root.destroy()
+        root = tk.Tk()
+        app = Login(root)
+        root.mainloop()
+
         
 
 if __name__ == "__main__":
