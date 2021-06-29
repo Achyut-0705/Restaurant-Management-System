@@ -9,7 +9,8 @@ from tkinter import messagebox
 import sqlite3 as sql
 from tkinter import Toplevel
 import webbrowser
-import time
+import os
+import tempfile
 
 
 myRest = None
@@ -252,7 +253,6 @@ class AdminPanel:
         top.mainloop()
         
 
-
     def btn_reset_command(self):
         pass
 
@@ -484,7 +484,11 @@ class SalesPanel:
         pass
     
     def btn_print_command(self):
-        pass
+        file = tempfile.mktemp(".txt")
+        open(file, "w").write(self.receipt.cget("text"))
+        os.startfile(file, "print")
+        
+        
     
     def btn_logout_command(self):
         self.root.destroy()
@@ -722,7 +726,18 @@ class ManageAdmin:
         <head> 
             <title> Admin Database </title> 
             <style> table, th, tr 
-                { border: 1px solid black; font-size: 20px; padding: 5px;}
+                { font-size: 30px; padding: 5px; }
+                th {
+                     border: 2px solid black;
+                     background-color: #f9dbf1;
+                    }
+                table {
+                    border: 5px solid black;
+                    }
+                body {
+                    background-color: #F371D1;
+                    font-family: "Arial";
+                    }
             </style> 
         </head> 
         <body> 
