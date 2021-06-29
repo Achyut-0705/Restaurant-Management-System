@@ -263,6 +263,8 @@ class AdminPanel:
 
     def btn_logout_command(self):
         self.window.destroy()
+        global currEmp
+        currEmp = None
         root = tk.Tk()
         app = Login(root)
         root.focus_force()
@@ -763,21 +765,19 @@ class ManageAdmin:
         </head>
         <body>
             <table>
-            <tr>
-                <th> NAME </th>
-                <th> USERNAME </th>
-            </tr>
-        </body>
-        </html>'''
-        file = open("adminData.html", "w")
-        with open('adminData.html','w') as file:
+                <tr>
+                    <th> NAME </th>
+                    <th> USERNAME </th>
+                </tr>
+        '''
+        with open('Data.html','w') as file:
             file.write(htmlContent)
             for record in data:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
 
-        webbrowser.open_new_tab('adminData.html')
+        webbrowser.open_new_tab('Data.html')
 
 
 class ManageEmployee:
@@ -815,7 +815,7 @@ class ManageEmployee:
         self.btn_view_report["fg"] = "#000000"
         self.btn_view_report["bg"] = btn_bg
         self.btn_view_report["justify"] = "center"
-        self.btn_view_report["text"] = "View Report"
+        self.btn_view_report["text"] = "View Database"
         self.btn_view_report.place(x=370, y=120, width=214, height=40)
         self.btn_view_report["command"] = self.btn_view_report_command
 
@@ -850,14 +850,26 @@ class ManageEmployee:
         self.label_add_username["justify"] = "center"
         self.label_add_username["text"] = "Username:"
         self.label_add_username.place(x=10, y=290, width=156, height=40)
+        
+        # ---------------------------------------x---------------------------------------------
+        
+        self.lable_ecode = tk.Label(root)
+        self.lable_ecode["font"] = ft
+        self.lable_ecode["fg"] = "#333333"
+        self.lable_ecode["bg"] = bg_main
+        self.lable_ecode["justify"] = "center"
+        self.lable_ecode["text"] = "Employee Code:"
+        self.lable_ecode.place(x=10, y=350, width=170, height=40)
 
+        # ---------------------------------------x---------------------------------------------
+        
         self.label_password = tk.Label(root)
         self.label_password["font"] = ft
         self.label_password["fg"] = "#333333"
         self.label_password["bg"] = bg_main
         self.label_password["justify"] = "center"
         self.label_password["text"] = "Password:"
-        self.label_password.place(x=10, y=360, width=164, height=40)
+        self.label_password.place(x=10, y=410, width=164, height=40)
 
         self.label_confirm_password = tk.Label(root)
         self.label_confirm_password["font"] = ft
@@ -865,7 +877,7 @@ class ManageEmployee:
         self.label_confirm_password["bg"] = bg_main
         self.label_confirm_password["justify"] = "center"
         self.label_confirm_password["text"] = "Enter your password to confirm"
-        self.label_confirm_password.place(x=240, y=420, width=464, height=40)
+        self.label_confirm_password.place(x=240, y=460, width=464, height=40)
 
         self.label_delete_username = tk.Label(root)
         self.label_delete_username["font"] = ft
@@ -875,6 +887,8 @@ class ManageEmployee:
         self.label_delete_username["text"] = "Username"
         self.label_delete_username.place(x=670, y=240, width=156, height=40)
 
+
+        
         self.add_name = tk.Entry(root)
         self.add_name["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -885,15 +899,6 @@ class ManageEmployee:
         self.add_name.place(x=190, y=230, width=250, height=33)
         self.add_name.focus()
 
-        self.delete_username = tk.Entry(root)
-        self.delete_username["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
-        self.delete_username["font"] = ft
-        self.delete_username["fg"] = "#333333"
-        self.delete_username["justify"] = "left"
-        self.delete_username["text"] = ""
-        self.delete_username.place(x=590, y=290, width=350, height=33)
-
         self.add_username = tk.Entry(root)
         self.add_username["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -903,6 +908,19 @@ class ManageEmployee:
         self.add_username["text"] = ""
         self.add_username.place(x=190, y=290, width=250, height=33)
 
+        
+        # ---------------------------------------x---------------------------------------------
+        
+        self.add_emp_ecode = tk.Entry(root)
+        self.add_emp_ecode["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
+        self.add_emp_ecode["font"] = ft
+        self.add_emp_ecode["fg"] = "#333333"
+        self.add_emp_ecode["justify"] = "left"
+        self.add_emp_ecode["text"] = ""
+        self.add_emp_ecode.place(x=190, y=360, width=250, height=33)
+
+        # ---------------------------------------x---------------------------------------------
         self.add_password = tk.Entry(root)
         self.add_password["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -911,8 +929,17 @@ class ManageEmployee:
         self.add_password["justify"] = "left"
         self.add_password["text"] = ""
         self.add_password["show"] = "*"
-        self.add_password.place(x=190, y=360, width=250, height=33)
-
+        self.add_password.place(x=190, y=410, width=250, height=33)
+        
+        self.delete_username = tk.Entry(root)
+        self.delete_username["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
+        self.delete_username["font"] = ft
+        self.delete_username["fg"] = "#333333"
+        self.delete_username["justify"] = "left"
+        self.delete_username["text"] = ""
+        self.delete_username.place(x=590, y=290, width=350, height=33)
+        
         self.admin_confirm_password = tk.Entry(root)
         self.admin_confirm_password["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -921,8 +948,8 @@ class ManageEmployee:
         self.admin_confirm_password["justify"] = "left"
         self.admin_confirm_password["text"] = ""
         self.admin_confirm_password["show"] = "*"
-        self.admin_confirm_password.place(x=250, y=480, width=450, height=30)
-
+        self.admin_confirm_password.place(x=250, y=500, width=450, height=30)
+        
         self.btn_add = tk.Button(root)
         self.btn_add["bg"] = "#efefef"
         ft = tkFont.Font(family='Roboto', size=18)
@@ -931,7 +958,7 @@ class ManageEmployee:
         self.btn_add["bg"] = btn_bg
         self.btn_add["justify"] = "center"
         self.btn_add["text"] = "Add"
-        self.btn_add.place(x=270, y=530, width=180, height=30)
+        self.btn_add.place(x=270, y=540, width=180, height=30)
         self.btn_add["command"] = self.btn_add_command
 
         self.btn_delete = tk.Button(root)
@@ -941,17 +968,116 @@ class ManageEmployee:
         self.btn_delete["bg"] = btn_bg
         self.btn_delete["justify"] = "center"
         self.btn_delete["text"] = "Delete"
-        self.btn_delete.place(x=500, y=530, width=180, height=30)
+        self.btn_delete.place(x=500, y=540, width=180, height=30)
         self.btn_delete["command"] = self.btn_delete_command
 
     def btn_add_command(self):
-        pass
+        name = self.add_name.get()
+        user = self.add_username.get()
+        pas = self.add_password.get()
+        ecode = self.add_emp_ecode.get()
+
+        selfPas = self.admin_confirm_password.get()
+        
+        if len(name) == 0 or len(user) == 0 or len(pas) == 0 or len(selfPas) == 0:
+            tk.messagebox.showerror("Error", "Fields Cannot be Empty")
+        else:
+            c = empCon.cursor()
+            c.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
+            exist = c.fetchone()
+            if exist == None:
+                if selfPas == currAdmin.password:
+                    choice = messagebox.askyesno(
+                        "Confirm", "Do you want to proceed?")
+                    if choice:
+                        a = empCon.cursor()
+                        a.execute("INSERT INTO employee VALUES (?, ?, ?,?)",
+                                  (ecode,name, user, pas))
+                        empCon.commit()
+                        messagebox.showinfo(
+                            "Success!", "New Employee Succesfully Created")
+                        self.window.destroy()
+                else:
+                    tk.messagebox.showerror("Error", "Wrong Password")
+            else:
+                messagebox.showerror(
+                    "Error", "Employee with username exists already!")
 
     def btn_view_report_command(self):
-        pass
+        c = empCon.cursor()
+        c.execute("SELECT * FROM employee ORDER BY name ASC")
+        data = c.fetchall()        
+        htmlContent ='''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="shortcut icon" href="./icon/icon2.ico">
+            <title> Employee Database </title>
+            <style> table, th, tr 
+                { font-size: 30px; padding: 5px; }
+                th {
+                     border: 2px solid black;
+                     background-color: #f9dbf1;
+                    }
+                table {
+                    border: 5px solid black;
+                    }
+                body {
+                    background-color: #F371D1;
+                    font-family: "Arial";
+                    }
+            </style> 
+        </head>
+        <body>
+            <table>
+                <tr>
+                    <th> Employee Code </th>
+                    <th> NAME </th>
+                    <th> USERNAME </th>
+                </tr>
+        '''
+        with open('adminData.html','w') as file:
+            file.write(htmlContent)
+            for record in data:
+                code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th><th> { record[2] } </th> </tr>"
+                file.write(code)
+            file.write("</table> </body> </html>")
+
+        webbrowser.open_new_tab('adminData.html')
 
     def btn_delete_command(self):
-        pass
+        global currAdmin
+        user = self.delete_username.get()
+        selfPas = self.admin_confirm_password.get()
+
+        if len(user) == 0 or len(selfPas) == 0:
+            tk.messagebox.showerror("Error", "Fields Cannot be Empty")
+        else:
+            c = empCon.cursor()
+            c.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
+            exist = c.fetchone()
+
+            if exist != None:
+                
+                if selfPas == currAdmin.password:
+                    choice = messagebox.askyesno(
+                        "Confirm", "Do you want to proceed?")
+                    if choice:
+                        a = empCon.cursor()
+                        a.execute(
+                            "DELETE FROM employee WHERE username = (?)", (user, ))
+                        empCon.commit()
+                        messagebox.showinfo(
+                            "Success!", "Employee Records Deleted")
+                        self.window.destroy()
+                else:
+                    tk.messagebox.showerror("Error", "Wrong Password")
+            else:
+                messagebox.showerror(
+                    "Error", "Employee with username does not exist!")
 
 
 if __name__ == "__main__":

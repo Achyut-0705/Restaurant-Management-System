@@ -63,8 +63,3 @@ itemCon.commit()
 i.execute("INSERT INTO items VALUES (?, ?, ?)", ("I003", "Pepsi", 60))
 itemCon.commit()
 itemCon.close()
-
-
-
-
-
