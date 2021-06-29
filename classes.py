@@ -4,7 +4,6 @@ Restaurant Management System
 All classes Used in the project
 
 """
-
 class RESTAURANT:
     def __init__(self, name, address, owner):
         self.name = name
