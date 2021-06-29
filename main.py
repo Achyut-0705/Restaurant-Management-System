@@ -770,14 +770,14 @@ class ManageAdmin:
         </body>
         </html>'''
         file = open("adminData.html", "w")
-        file.write(htmlContent)
-        for record in data:
-            code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th> </tr>"
-            file.write(code)
-        file.write("</table> </body> </html>")
-        file.close()
+        with open('adminData.html','w') as file:
+            file.write(htmlContent)
+            for record in data:
+                code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th> </tr>"
+                file.write(code)
+            file.write("</table> </body> </html>")
 
-        webbrowser.open_new_tab("adminData.html")
+        webbrowser.open_new_tab('adminData.html')
 
 
 class ManageEmployee:
