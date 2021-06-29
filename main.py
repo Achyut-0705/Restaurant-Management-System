@@ -1,6 +1,6 @@
-import os
+#import os
 #Set value of chdir to path of local repository.
-os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 import tkinter.font as tkFont
@@ -680,7 +680,8 @@ class ManageAdmin:
                         a = adminCon.cursor()
                         a.execute("INSERT INTO admin VALUES (?, ?, ?)", (name, user, pas))
                         adminCon.commit()
-                        messagebox.showinfo("Success!", "New Admin Succesfully Created")                   
+                        messagebox.showinfo("Success!", "New Admin Succesfully Created")
+                        self.window.destroy()
                 else:
                     tk.messagebox.showerror("Error", "Wrong Password")
             else:
@@ -708,7 +709,8 @@ class ManageAdmin:
                             a = adminCon.cursor()
                             a.execute("DELETE FROM admin WHERE username = (?)", (user, ))
                             adminCon.commit()
-                            messagebox.showinfo("Success!", "Admin Records Deleted")                   
+                            messagebox.showinfo("Success!", "Admin Records Deleted")
+                            self.window.destroy()
                     else:
                         tk.messagebox.showerror("Error", "Wrong Password")
             else:
