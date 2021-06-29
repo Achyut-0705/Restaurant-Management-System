@@ -260,6 +260,7 @@ class AdminPanel:
         self.window.destroy()
         root = tk.Tk()
         app = Login(root)
+        root.focus_force()
         root.mainloop()
         
 
@@ -281,7 +282,6 @@ class SalesPanel:
         global currEmp
         
         self.root = root
-        
         root.title("Sales Panel")
         width=1280
         height=720
@@ -326,6 +326,7 @@ class SalesPanel:
         self.label_name_customer["bg"] = bg_main
         self.label_name_customer["text"] = "Customer Name:"
         self.label_name_customer.place(x=35,y=250,width=200,height=54)
+        
 
         self.name_customer=tk.Entry(root)
         self.name_customer["borderwidth"] = "1px"
@@ -333,6 +334,7 @@ class SalesPanel:
         self.name_customer["fg"] = "#333333"
         self.name_customer["justify"] = "left"
         self.name_customer.place(x=250,y=260, width=400,height=35)
+        self.name_customer.focus()
 
         self.label_email=tk.Label(root)
         self.label_email["font"] = ft
@@ -682,7 +684,8 @@ class ManageAdmin:
                         a = adminCon.cursor()
                         a.execute("INSERT INTO admin VALUES (?, ?, ?)", (name, user, pas))
                         adminCon.commit()
-                        messagebox.showinfo("Success!", "New Admin Succesfully Created")                   
+                        messagebox.showinfo("Success!", "New Admin Succesfully Created")
+                        self.window.destroy()
                 else:
                     tk.messagebox.showerror("Error", "Wrong Password")
             else:
@@ -710,7 +713,8 @@ class ManageAdmin:
                             a = adminCon.cursor()
                             a.execute("DELETE FROM admin WHERE username = (?)", (user, ))
                             adminCon.commit()
-                            messagebox.showinfo("Success!", "Admin Records Deleted")                   
+                            messagebox.showinfo("Success!", "Admin Records Deleted")
+                            self.window.destroy()
                     else:
                         tk.messagebox.showerror("Error", "Wrong Password")
             else:
