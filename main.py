@@ -1196,3 +1196,11 @@ if __name__ == "__main__":
     empCon.close()
     itemCon.close()
     orderCon.close()
+    
+    if os.path.exists("adminData.html"):
+        os.remove("adminData.html")
+    if os.path.exists("empData.html"):
+        os.remove("empData.html")
+    if os.path.exists("orderData.html"):
+        os.remove("orderData.html")
+        
