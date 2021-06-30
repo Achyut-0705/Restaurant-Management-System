@@ -3,7 +3,8 @@ import tkinter.font as tkFont
 from classes import RESTAURANT, ITEM, ADMIN, EMPLOYEE
 from tkinter import messagebox
 import sqlite3 as sql
-from tkinter import Toplevel
+from tkinter import Toplevel, ttk
+from tkinter import *
 import webbrowser
 import tempfile
 
@@ -458,6 +459,8 @@ class SalesPanel:
         self.receipt["bg"] = bg_panel
         self.receipt["text"] = "RECEIPT"
         self.receipt.place(x=900, y=350, width=330, height=267)
+        self.canvas = Canvas(self.receipt)
+        self.canvas.pack(side = tk.LEFT)
 
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -581,6 +584,17 @@ class SalesPanel:
         
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
             self.receipt["text"] = rec
+            
+            scrollbar = ttk.Scrollbar(self.receipt, orient="vertical", command=self.canvas.yview)
+            scrollbar.pack(side = tk.RIGHT, fill = 'y')
+            self.canvas.configure(yscrollcommand = scrollbar.set)
+            self.canvas.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+            canvas2 = ttk.Frame(self.canvas)
+            self.receipt.place(x=900, y=350, width=330, height=267)
+            self.canvas.create_window((0,0),window = canvas2, anchor = 'nw')
+            ttk.Label(canvas2, text = self.receipt['text']).pack()
+            self.receipt.pack()
+            
             o = orderCon.cursor()
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
