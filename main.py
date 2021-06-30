@@ -844,7 +844,7 @@ class ManageAdmin:
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="shortcut icon" href="./icon/icon2.ico">
+            <link rel="shortcut icon" href="./icon/icon.ico">
             <title> Admin Database </title>
             <style> table, th, tr 
                 { font-size: 30px; padding: 5px; }
@@ -1112,7 +1112,7 @@ class ManageEmployee:
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="shortcut icon" href="./icon/icon2.ico">
+            <link rel="shortcut icon" href="./icon/icon.ico">
             <title> Employee Database </title>
             <style> table, th, tr 
                 { font-size: 30px; padding: 5px; }
@@ -1202,7 +1202,7 @@ if __name__ == "__main__":
     app = Login(root)
     root.attributes('-topmost', 1)
     root.focus_force()
-    ico = tk.PhotoImage(file='icon\icon2.png')
+    ico = tk.PhotoImage(file='icon\icon.png')
     root.iconphoto(True, ico)
     root.mainloop()
 
