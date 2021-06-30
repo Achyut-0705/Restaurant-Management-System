@@ -1,6 +1,6 @@
 #import os
 # Set value of chdir to path of local repository.
-# os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 import tkinter.font as tkFont
@@ -519,10 +519,10 @@ class SalesPanel:
         name = self.name_customer.get()
         email = self.email_customer.get()
         self.receipt["justify"] = "left"
-        rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\n"
+        rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
         total =0
         for it in self.order:
-            rec += f"\n{it[0]} - {it[1]} - {it[2]}/-"
+            rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
             total += it[2]
         
         rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
