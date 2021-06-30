@@ -1503,4 +1503,6 @@ if __name__ == "__main__":
         os.remove("empData.html")
     if os.path.exists("orderData.html"):
         os.remove("orderData.html")
+    if os.path.exists("itemData.html"):
+        os.remove("orderData.html")
         
