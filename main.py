@@ -1,6 +1,6 @@
-import os
+#import os
 # Set value of chdir to path of local repository.
-os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 import tkinter.font as tkFont
