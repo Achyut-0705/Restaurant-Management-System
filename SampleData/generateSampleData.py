@@ -63,3 +63,19 @@ itemCon.commit()
 i.execute("INSERT INTO items VALUES (?, ?, ?)", ("I003", "Pepsi", 60))
 itemCon.commit()
 itemCon.close()
+
+orderFile = "order.db"
+orderCon = sql.connect(orderFile)
+o = orderCon.cursor()
+o.execute(""" CREATE TABLE orders (
+              onum INTEGER PRIMARY KEY AUTOINCREMENT,
+              cust_name TEXT,
+              cust_email TEXT,
+              total REAL
+              )""")
+o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (:cust_name, :cust_email, :total)", {"cust_name":"Antriksh", "cust_email":"abc@gmail.com", "total":100})
+orderCon.commit()
+
+o.execute("SELECT * FROM orders")
+print(o.fetchone())
+orderCon.close()
