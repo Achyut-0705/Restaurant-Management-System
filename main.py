@@ -513,8 +513,50 @@ class SalesPanel:
         root.mainloop()
 
     def btn_prev_order_command(self):
-        pass
+        o = orderCon.cursor()
+        o.execute("SELECT * FROM orders ORDER BY onum")
+        data = o.fetchall()        
+        htmlContent ='''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="shortcut icon" href="./icon/icon2.ico">
+            <title> Order Database </title>
+            <style> table, th, tr 
+                { font-size: 30px; padding: 5px; }
+                th {
+                     border: 2px solid black;
+                     background-color: #f9dbf1;
+                    }
+                table {
+                    border: 5px solid black;
+                    }
+                body {
+                    background-color: #F371D1;
+                    font-family: "Arial";
+                    }
+            </style> 
+        </head>
+        <body>
+            <table>
+                <tr>
+                    <th> Order Number </th>
+                    <th> Customer Name </th>
+                    <th> Customer Email </th>
+                    <th> Total </th>
+                </tr>
+        '''
+        with open('empData.html','w') as file:
+            file.write(htmlContent)
+            for record in data:
+                code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th><th> { record[2] } </th> <th> { record[3] } </th> </tr>"
+                file.write(code)
+            file.write("</table> </body> </html>")
 
+        webbrowser.open_new_tab('empData.html')
     def btn_gen_receipt_command(self):
         name = self.name_customer.get()
         email = self.email_customer.get()
@@ -527,8 +569,10 @@ class SalesPanel:
         
         rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
         self.receipt["text"] = rec
+        o = orderCon.cursor()
+        o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
+        orderCon.commit()
         
-
     def btn_print_command(self):
         file = tempfile.mktemp(".txt")
         open(file, "w").write(self.receipt.cget("text"))
@@ -809,14 +853,14 @@ class ManageAdmin:
                     <th> USERNAME </th>
                 </tr>
         '''
-        with open('Data.html','w') as file:
+        with open('adminData.html','w') as file:
             file.write(htmlContent)
             for record in data:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
 
-        webbrowser.open_new_tab('Data.html')
+        webbrowser.open_new_tab('adminData.html')
 
 
 class ManageEmployee:
@@ -1078,14 +1122,14 @@ class ManageEmployee:
                     <th> USERNAME </th>
                 </tr>
         '''
-        with open('adminData.html','w') as file:
+        with open('empData.html','w') as file:
             file.write(htmlContent)
             for record in data:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th><th> { record[2] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
 
-        webbrowser.open_new_tab('adminData.html')
+        webbrowser.open_new_tab('empData.html')
 
     def btn_delete_command(self):
         global currAdmin
@@ -1125,12 +1169,14 @@ if __name__ == "__main__":
     restFile = "SampleData/rest.db"
     empFile = "SampleData/emp.db"
     itemFile = "SampleData/item.db"
-
+    orderFile = "SampleData/order.db"
+    
     adminCon = sql.connect(adminFile)
     restCon = sql.connect(restFile)
     empCon = sql.connect(empFile)
     itemCon = sql.connect(itemFile)
-
+    orderCon = sql.connect(orderFile)
+    
     # reading restaurant details
     r = restCon.cursor()
     r.execute("SELECT * FROM restaurant")
@@ -1149,3 +1195,4 @@ if __name__ == "__main__":
     restCon.close()
     empCon.close()
     itemCon.close()
+    orderCon.close()
