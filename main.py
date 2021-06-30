@@ -557,21 +557,36 @@ class SalesPanel:
             file.write("</table> </body> </html>")
 
         webbrowser.open_new_tab('empData.html')
+        
+        
+    def validEmail(self,em):
+        if em.count('@') != 1:
+            return False
+        i = em.index('@')
+        domain = em[i+1:]
+        if domain == "" or '.' not in domain or '.' == domain[-1] or '.' == domain[0]:
+            return False
+        return True
+        
+        
     def btn_gen_receipt_command(self):
         name = self.name_customer.get()
         email = self.email_customer.get()
-        self.receipt["justify"] = "left"
-        rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
-        total =0
-        for it in self.order:
-            rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
-            total += it[2]
+        if not self.validEmail(email):
+            messagebox.showerror("Error", "Invalid E-mail!")
+        else:
+            self.receipt["justify"] = "left"
+            rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
+            total =0
+            for it in self.order:
+                rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
+                total += it[2]
         
-        rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
-        self.receipt["text"] = rec
-        o = orderCon.cursor()
-        o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
-        orderCon.commit()
+            rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
+            self.receipt["text"] = rec
+            o = orderCon.cursor()
+            o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
+            orderCon.commit()
         
     def btn_print_command(self):
         file = tempfile.mktemp(".txt")
