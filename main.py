@@ -564,7 +564,7 @@ class SalesPanel:
             return False
         i = em.index('@')
         domain = em[i+1:]
-        if '.' not in domain or '.' == domain[-1] or '.' == domain[0]:
+        if domain == "" or '.' not in domain or '.' == domain[-1] or '.' == domain[0]:
             return False
         return True
         
