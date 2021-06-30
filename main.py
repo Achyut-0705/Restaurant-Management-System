@@ -1,7 +1,3 @@
-#import os
-# Set value of chdir to path of local repository.
-#os.chdir('C:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
-
 import tkinter as tk
 import tkinter.font as tkFont
 from classes import RESTAURANT, ITEM, ADMIN, EMPLOYEE
@@ -9,7 +5,6 @@ from tkinter import messagebox
 import sqlite3 as sql
 from tkinter import Toplevel
 import webbrowser
-import os
 import tempfile
 
 
@@ -558,8 +553,7 @@ class SalesPanel:
                 file.write(code)
             file.write("</table> </body> </html>")
 
-        webbrowser.open_new_tab('empData.html')
-        
+        webbrowser.open_new_tab('empData.html')        
         
     def validEmail(self,em):
         if em.count('@') != 1:
@@ -568,8 +562,7 @@ class SalesPanel:
         domain = em[i+1:]
         if domain == "" or '.' not in domain or '.' == domain[-1] or '.' == domain[0]:
             return False
-        return True
-        
+        return True        
         
     def btn_gen_receipt_command(self):
         name = self.name_customer.get()
@@ -603,7 +596,6 @@ class SalesPanel:
         app = Login(root)
         root.focus_force()
         root.mainloop()
-
 
 class ManageAdmin:
     def __init__(self, root):
@@ -895,8 +887,7 @@ class ManageEmployee:
         height = 600
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
-        alignstr = '%dx%d+%d+%d' % (width, height,
-                                    (screenwidth - width) / 2, (screenheight - height) / 2)
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
         root.configure(background=bg_main)
@@ -928,7 +919,7 @@ class ManageEmployee:
         self.label_add_admin["justify"] = "center"
         self.label_add_admin["text"] = "Add Employee"
         self.label_add_admin.place(x=160, y=150, width=189, height=50)
-
+        
         self.label_delete = tk.Label(root)
         self.label_delete["font"] = ft
         self.label_delete["fg"] = "#333333"
@@ -953,8 +944,6 @@ class ManageEmployee:
         self.label_add_username["text"] = "Username:"
         self.label_add_username.place(x=10, y=290, width=156, height=40)
         
-        # ---------------------------------------x---------------------------------------------
-        
         self.lable_ecode = tk.Label(root)
         self.lable_ecode["font"] = ft
         self.lable_ecode["fg"] = "#333333"
@@ -963,8 +952,6 @@ class ManageEmployee:
         self.lable_ecode["text"] = "Employee Code:"
         self.lable_ecode.place(x=10, y=350, width=170, height=40)
 
-        # ---------------------------------------x---------------------------------------------
-        
         self.label_password = tk.Label(root)
         self.label_password["font"] = ft
         self.label_password["fg"] = "#333333"
@@ -989,8 +976,6 @@ class ManageEmployee:
         self.label_delete_username["text"] = "Username"
         self.label_delete_username.place(x=670, y=240, width=156, height=40)
 
-
-        
         self.add_name = tk.Entry(root)
         self.add_name["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -1010,9 +995,6 @@ class ManageEmployee:
         self.add_username["text"] = ""
         self.add_username.place(x=190, y=290, width=250, height=33)
 
-        
-        # ---------------------------------------x---------------------------------------------
-        
         self.add_emp_ecode = tk.Entry(root)
         self.add_emp_ecode["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -1022,7 +1004,6 @@ class ManageEmployee:
         self.add_emp_ecode["text"] = ""
         self.add_emp_ecode.place(x=190, y=360, width=250, height=33)
 
-        # ---------------------------------------x---------------------------------------------
         self.add_password = tk.Entry(root)
         self.add_password["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -1252,8 +1233,6 @@ class ManageItem:
         self.label_add_username["text"] = "Item Code:"
         self.label_add_username.place(x=10, y=290, width=156, height=40)
         
-        # ---------------------------------------x---------------------------------------------
-        
         self.lable_ecode = tk.Label(root)
         self.lable_ecode["font"] = ft
         self.lable_ecode["fg"] = "#333333"
@@ -1261,8 +1240,6 @@ class ManageItem:
         self.lable_ecode["justify"] = "center"
         self.lable_ecode["text"] = "Price:"
         self.lable_ecode.place(x=10, y=350, width=170, height=40)
-
-        # ---------------------------------------x---------------------------------------------
         
         self.label_confirm_password = tk.Label(root)
         self.label_confirm_password["font"] = ft
@@ -1279,8 +1256,6 @@ class ManageItem:
         self.label_delete_username["justify"] = "center"
         self.label_delete_username["text"] = "Item Code"
         self.label_delete_username.place(x=670, y=240, width=156, height=40)
-
-
         
         self.add_name = tk.Entry(root)
         self.add_name["borderwidth"] = "1px"
@@ -1301,11 +1276,6 @@ class ManageItem:
         self.add_icode["text"] = ""
         self.add_icode.place(x=190, y=290, width=250, height=33)
 
-        
-        # ---------------------------------------x---------------------------------------------
-        
-
-        # ---------------------------------------x---------------------------------------------
         self.add_price = tk.Entry(root)
         self.add_price["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -1368,23 +1338,31 @@ class ManageItem:
                 c.execute("SELECT * FROM items WHERE icode = (?)", (icode, ))
                 exist = c.fetchone()
                 if exist == None:
-                    if selfprice == currAdmin.password:
-                        choice = messagebox.askyesno(
-                            "Confirm", "Do you want to proceed?")
-                        if choice:
-                            a = itemCon.cursor()
-                            a.execute("INSERT INTO items VALUES (?, ?, ?)",
-                                      (icode, name, price))
-                            itemCon.commit()
-                            messagebox.showinfo(
-                                "Success!", "New Item Succesfully Created")
+                    name_isPresent = c.execute("SELECT * from items where name = (?)",(name)).fetchone()
+                    if name_isPresent == None:
+                        print('------REACHED HERE------')
+                        if selfprice == currAdmin.password:
+                            choice = messagebox.askyesno(
+                                "Confirm", "Do you want to proceed?")
+                            if choice:
+                                a = itemCon.cursor()
+                                a.execute("INSERT INTO items VALUES (?, ?, ?)",
+                                        (icode, name, price))
+                                itemCon.commit()
+                                messagebox.showinfo(
+                                    "Success!", "New Item Succesfully Created")
+                        else:
+                            tk.messagebox.showerror("Error", "Wrong password")
                     else:
-                        tk.messagebox.showerror("Error", "Wrong password")
+                        tk.messagebox.showerror("Error",'Item with same name already exists')
+                    
                 else:
                     messagebox.showerror(
                         "Error", "Item with icode exists already!")
         except:
             messagebox.showerror("Error", "Price Has to be a valid number.")
+        
+        self.window.destroy()
 
     def btn_view_report_command(self):
         c = itemCon.cursor()
@@ -1462,7 +1440,7 @@ class ManageItem:
                 messagebox.showerror(
                     "Error", "Item with Icode does not exist!")
                 
-                
+              
 if __name__ == "__main__":
 
     adminFile = "SampleData/admin.db"
@@ -1497,6 +1475,7 @@ if __name__ == "__main__":
     itemCon.close()
     orderCon.close()
     
+    import os
     if os.path.exists("adminData.html"):
         os.remove("adminData.html")
     if os.path.exists("empData.html"):
@@ -1504,5 +1483,5 @@ if __name__ == "__main__":
     if os.path.exists("orderData.html"):
         os.remove("orderData.html")
     if os.path.exists("itemData.html"):
-        os.remove("orderData.html")
+        os.remove("itemData.html")
         
