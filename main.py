@@ -5,7 +5,14 @@ from classes import *
 import sqlite3 as sql
 from tkinter import messagebox
 from tkinter import Toplevel, ttk
+<<<<<<< HEAD
 # import tempfile
+=======
+from tkinter import *
+import webbrowser
+import tempfile
+import os
+>>>>>>> 54857567c98d517497976e841ff5ba80ec8c2c69
 
 myRest = None
 currAdmin = None
@@ -456,8 +463,6 @@ class SalesPanel:
         self.receipt["bg"] = bg_panel
         self.receipt["text"] = "RECEIPT"
         self.receipt.place(x=900, y=350, width=330, height=267)
-        self.canvas = Canvas(self.receipt)
-        self.canvas.pack(side = tk.LEFT)
 
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -567,6 +572,10 @@ class SalesPanel:
     def btn_gen_receipt_command(self):
         name = self.name_customer.get()
         email = self.email_customer.get()
+        
+        if self.list_item.size() > 4:
+            ft = tkFont.Font(family='Roboto', size=10, weight="bold")
+            self.receipt["font"] = ft
         if not self.validEmail(email):
             messagebox.showerror("Error", "Invalid E-mail!")
         elif len(name)==0 or len(email)==0:
@@ -581,17 +590,7 @@ class SalesPanel:
         
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
             self.receipt["text"] = rec
-            
-            scrollbar = ttk.Scrollbar(self.receipt, orient="vertical", command=self.canvas.yview)
-            scrollbar.pack(side = tk.RIGHT, fill = 'y')
-            self.canvas.configure(yscrollcommand = scrollbar.set)
-            self.canvas.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
-            canvas2 = ttk.Frame(self.canvas)
-            self.receipt.place(x=900, y=350, width=330, height=267)
-            self.canvas.create_window((0,0),window = canvas2, anchor = 'nw')
-            ttk.Label(canvas2, text = self.receipt['text']).pack()
-            self.receipt.pack()
-            
+
             o = orderCon.cursor()
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
