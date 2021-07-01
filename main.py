@@ -5,14 +5,7 @@ from classes import *
 import sqlite3 as sql
 from tkinter import messagebox
 from tkinter import Toplevel, ttk
-<<<<<<< HEAD
-# import tempfile
-=======
 from tkinter import *
-import webbrowser
-import tempfile
-import os
->>>>>>> 54857567c98d517497976e841ff5ba80ec8c2c69
 
 myRest = None
 currAdmin = None
