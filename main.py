@@ -69,6 +69,7 @@ class Login:
         self.password["font"] = ft
         self.password["fg"] = "#333333"
         self.password["text"] = "Password"
+        self.password["show"] = "*"
         self.password.place(x=160, y=220, width=493, height=30)
         self.password['show'] = '*'
 
@@ -479,8 +480,7 @@ class SalesPanel:
         self.btn_logout["text"] = "Log Out"
         self.btn_logout.place(x=1070, y=640, width=160, height=50)
         self.btn_logout["command"] = self.btn_logout_command
-        
-        self.order = []
+    
     def btn_add_item_command(self):
         itemChosen = self.clicked.get()
         if itemChosen == "Choose":
@@ -499,12 +499,12 @@ class SalesPanel:
                     self.list_item.insert(tk.END, f"{j} - {self.item_count[j]} -- {price*self.item_count[j]}/-")
                 
             self.list_item["state"] = tk.DISABLED
-            self.order.append((itemChosen, qty, price*qty))
 
     def btn_remove_item_command(self):
         self.list_item["state"] = tk.NORMAL
         self.list_item.delete(0,tk.END)
-        self.order = []
+        for i in self.item_count:
+            self.item_count[i] = 0
         self.list_item["state"] = tk.DISABLED
 
     def btn_new_order_command(self):
@@ -584,9 +584,18 @@ class SalesPanel:
             self.receipt["justify"] = "left"
             rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
             total =0
-            for it in self.order:
-                rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
-                total += it[2]
+            # item_list = i.execute('select * from items').fetchall()
+            
+            item_list = self.list_item.get(0,tk.END) 
+            
+            for it in item_list:
+                # rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
+                # name - quantity - price
+                temp = it.replace(' -- ',' ').replace('/-','').replace(' - ',' ').strip()
+                item, count, total_price = temp.split(' ')
+                total_price = float(total_price)
+                total += total_price
+                rec += f"\n{item}\t{count}\t{total_price}/-"
         
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
             self.receipt["text"] = rec
@@ -1505,8 +1514,8 @@ class ResetDatabase:
         self.password["font"] = ft
         self.password["fg"] = "#333333"
         self.password["text"] = "Password"
+        self.password["show"] = "*"
         self.password.place(x=208, y=280, width=335, height=30)
-        self.password['show'] = '*'
         
         ft = tkFont.Font(family='Roboto', size=15, weight = "bold")
         self.rest_btn = tk.Button(root)
@@ -1659,6 +1668,7 @@ class StartUp:
         self.password_admin["fg"] = "#333333"
         self.password_admin["justify"] = "left"
         self.password_admin["text"] = ""
+        self.password_admin["show"] = "*"
         self.password_admin.place(x=220,y=320,width=305,height=30)
 
         self.label_employee=tk.Label(root)
@@ -1705,8 +1715,6 @@ class StartUp:
         self.name_employee["justify"] = "left"
         self.name_employee["text"] = ""
         self.name_employee.place(x=220,y=480,width=305,height=30)
-
-
        
         self.label_usernmae_employee=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
@@ -1742,6 +1750,7 @@ class StartUp:
         self.password_employee["fg"] = "#333333"
         self.password_employee["justify"] = "left"
         self.password_employee["text"] = ""
+        self.password_employee["show"] = "*"
         self.password_employee.place(x=220,y=580,width=305,height=30)
 
         self.btn_continue=tk.Button(root)
