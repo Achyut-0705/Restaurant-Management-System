@@ -141,6 +141,7 @@ class Login:
                 tk.messagebox.showinfo("Logged In", "Successfully Logged In")
                 self.window.destroy()
                 root = tk.Tk()
+                print('made it here')
                 app = SalesPanel(root)
                 root.mainloop()
             else:
@@ -389,9 +390,11 @@ class SalesPanel:
         """
         i = itemCon.cursor()
         i.execute("SELECT * FROM items")
-        
         INVENTORY = i.fetchall()
         items = [thisItem[1] for thisItem in INVENTORY]
+        self.item_count = dict()
+        for item in items:
+            self.item_count[item] = 0
         self.clicked = tk.StringVar()
         self.clicked.set('Choose')
         self.item_list = tk.OptionMenu(root, self.clicked, *items)
@@ -489,9 +492,18 @@ class SalesPanel:
             c = itemCon.cursor()
             c.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
             price = c.fetchone()[0]
+            
+            self.item_count[itemChosen] = self.item_count[itemChosen] + qty
+            print(self.item_count)
+            
             self.list_item["state"] = tk.NORMAL
-            already = self.list_item.size()
-            self.list_item.insert(already + 1, f"{itemChosen} - {qty} -- {price*qty}/-")
+            
+            self.list_item.delete(0,tk.END)
+            
+            for i in self.item_count:
+                if self.item_count[i] != 0:
+                    self.list_item.insert(tk.END, f"{i} - {self.item_count[i]} -- {price*self.item_count[i]}/-")
+                
             self.list_item["state"] = tk.DISABLED
             self.order.append((itemChosen, qty, price*qty))
             
