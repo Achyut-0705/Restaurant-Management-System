@@ -19,7 +19,7 @@ class StartUp:
 
         root.title("Restraunt Management System")
         width = 1200
-        height = 650
+        height = 700
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
@@ -33,16 +33,17 @@ class StartUp:
         self.label_panel["fg"] = fg_panel
         self.label_panel["bg"] = bg_panel
         self.label_panel["justify"] = "center"
-        self.label_panel["text"] = "StartUp Mode"
+        self.label_panel["text"] = "STARTUP MODE"
         self.label_panel.place(x=0,y=0,width=1200,height=90)
 
         self.label_heading=tk.Label(root)
-        ft = tkFont.Font(family='Roboto', size=30)
+        ft = tkFont.Font(family='Roboto', size=20)
         self.label_heading["font"] = ft
         self.label_heading["fg"] = "#333333"
         self.label_heading["bg"] = bg_main
         self.label_heading["justify"] = "center"
-        self.label_heading["text"] = "Enter Following details To SetUp you software"
+        self.label_heading["text"] = "Enter the following details To Setup you software"
+        self.label_heading["wraplength"] = 1100
         self.label_heading.place(x=0,y=100,width=1200,height=50)
 
         self.label_admin=tk.Label(root)
@@ -162,6 +163,26 @@ class StartUp:
         self.name_employee["text"] = ""
         self.name_employee.place(x=220,y=480,width=305,height=30)
 
+
+       
+        self.label_usernmae_employee=tk.Label(root)
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.label_usernmae_employee["font"] = ft
+        self.label_usernmae_employee["fg"] = "#333333"
+        self.label_usernmae_employee["bg"] = bg_main
+        self.label_usernmae_employee["justify"] = "center"
+        self.label_usernmae_employee["text"] = "Username:"
+        self.label_usernmae_employee.place(x=57,y=520,width=110,height=40)
+        
+        self.username_employee=tk.Entry(root)
+        self.username_employee["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.username_employee["font"] = ft
+        self.username_employee["fg"] = "#333333"
+        self.username_employee["justify"] = "left"
+        self.username_employee["text"] = ""
+        self.username_employee.place(x=220,y=530,width=305,height=30)
+        
         self.label_password_employee=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
         self.label_password_employee["font"] = ft
@@ -169,7 +190,7 @@ class StartUp:
         self.label_password_employee["bg"] = bg_main
         self.label_password_employee["justify"] = "center"
         self.label_password_employee["text"] = "Password:"
-        self.label_password_employee.place(x=30,y=520,width=160,height=50)
+        self.label_password_employee.place(x=30,y=570,width=160,height=40)
 
         self.password_employee=tk.Entry(root)
         self.password_employee["borderwidth"] = "1px"
@@ -178,7 +199,7 @@ class StartUp:
         self.password_employee["fg"] = "#333333"
         self.password_employee["justify"] = "left"
         self.password_employee["text"] = ""
-        self.password_employee.place(x=220,y=530,width=305,height=30)
+        self.password_employee.place(x=220,y=580,width=305,height=30)
 
         self.btn_continue=tk.Button(root)
         self.btn_continue["bg"] = "#efefef"
@@ -188,7 +209,7 @@ class StartUp:
         self.btn_continue["bg"] = btn_bg
         self.btn_continue["justify"] = "center"
         self.btn_continue["text"] = "Continue"
-        self.btn_continue.place(x=400,y=600,width=368,height=41)
+        self.btn_continue.place(x=400,y=650,width=368,height=41)
         self.btn_continue["command"] = self.btn_continue_command
 
         self.label_name_restaurant=tk.Label(root)
@@ -313,5 +334,5 @@ class StartUp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = App(root)
+    app = StartUp(root)
     root.mainloop()

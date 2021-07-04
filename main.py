@@ -7,6 +7,7 @@ from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
 
+
 myRest = None
 currAdmin = None
 currEmp = None
@@ -106,8 +107,6 @@ class Login:
         self.login_btn["command"] = self.logEMP
 
     def logAdmin(self):
-
-        a = adminCon.cursor()
         user = self.username.get()
         try:
             a.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
@@ -126,10 +125,10 @@ class Login:
                     "Wrong Credentials", "Username/Password Incorrect")
         except:
             tk.messagebox.showerror("Record Not Found", "No Such User Found")
+        
 
     def logEMP(self):
-
-        e = empCon.cursor()
+        
         user = self.username.get()
         try:
             e.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
@@ -148,7 +147,7 @@ class Login:
                     "Wrong Credentials", "Username/Password Incorrect")
         except:
             tk.messagebox.showerror("Record Not Found", "No Such User Found")
-
+        
 
 class AdminPanel:
     def __init__(self, root):
@@ -252,9 +251,10 @@ class AdminPanel:
         top.mainloop()
 
     def btn_reset_command(self):
-        top = Toplevel(self.window)
-        app = ResetDatabase(top)
-        top.mainloop()
+        self.window.destroy()
+        root = tk.Tk()
+        app = ResetDatabase(root)
+        root.mainloop()
 
     def btn_logout_command(self):
         self.window.destroy()
@@ -387,7 +387,6 @@ class SalesPanel:
         """
         Loading Items into the Menu
         """
-        i = itemCon.cursor()
         i.execute("SELECT * FROM items")
         
         INVENTORY = i.fetchall()
@@ -486,15 +485,13 @@ class SalesPanel:
             messagebox.showerror("Error", "Choose an item")
         else:
             qty = self.clicked_qty.get()
-            c = itemCon.cursor()
-            c.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
-            price = c.fetchone()[0]
+            i.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
+            price = i.fetchone()[0]
             self.list_item["state"] = tk.NORMAL
             already = self.list_item.size()
             self.list_item.insert(already + 1, f"{itemChosen} - {qty} -- {price*qty}/-")
             self.list_item["state"] = tk.DISABLED
             self.order.append((itemChosen, qty, price*qty))
-            
 
     def btn_remove_item_command(self):
         self.list_item["state"] = tk.NORMAL
@@ -510,7 +507,7 @@ class SalesPanel:
         root.mainloop()
 
     def btn_prev_order_command(self):
-        o = orderCon.cursor()
+    
         o.execute("SELECT * FROM orders ORDER BY onum")
         data = o.fetchall()        
         htmlContent ='''
@@ -586,7 +583,7 @@ class SalesPanel:
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
             self.receipt["text"] = rec
 
-            o = orderCon.cursor()
+            
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
         
@@ -779,15 +776,15 @@ class ManageAdmin:
         if len(name) == 0 or len(user) == 0 or len(pas) == 0 or len(selfPas) == 0:
             tk.messagebox.showerror("Error", "Fields Cannot be Empty")
         else:
-            c = adminCon.cursor()
-            c.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
-            exist = c.fetchone()
+            
+            a.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
+            exist = a.fetchone()
             if exist == None:
                 if selfPas == currAdmin.password:
                     choice = messagebox.askyesno(
                         "Confirm", "Do you want to proceed?")
                     if choice:
-                        a = adminCon.cursor()
+                        
                         a.execute("INSERT INTO admin VALUES (?, ?, ?)",
                                   (name, user, pas))
                         adminCon.commit()
@@ -809,9 +806,9 @@ class ManageAdmin:
         if len(user) == 0 or len(selfPas) == 0:
             tk.messagebox.showerror("Error", "Fields Cannot be Empty")
         else:
-            c = adminCon.cursor()
-            c.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
-            exist = c.fetchone()
+            
+            a.execute("SELECT * FROM admin WHERE username = (?)", (user, ))
+            exist = a.fetchone()
 
             if exist != None:
                 if currAdmin.username == exist[1]:
@@ -822,7 +819,7 @@ class ManageAdmin:
                         choice = messagebox.askyesno(
                             "Confirm", "Do you want to proceed?")
                         if choice:
-                            a = adminCon.cursor()
+                            
                             a.execute(
                                 "DELETE FROM admin WHERE username = (?)", (user, ))
                             adminCon.commit()
@@ -837,9 +834,9 @@ class ManageAdmin:
 
     def btn_view_report_command(self):
 
-        c = adminCon.cursor()
-        c.execute("SELECT name, username FROM admin ORDER BY name ASC")
-        data = c.fetchall()        
+        
+        a.execute("SELECT name, username FROM admin ORDER BY name ASC")
+        data = a.fetchall()        
         htmlContent ='''
         <!DOCTYPE html>
         <html lang="en">
@@ -1072,16 +1069,16 @@ class ManageEmployee:
         if len(name) == 0 or len(user) == 0 or len(pas) == 0 or len(selfPas) == 0:
             tk.messagebox.showerror("Error", "Fields Cannot be Empty")
         else:
-            c = empCon.cursor()
-            c.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
-            exist = c.fetchone()
+            
+            e.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
+            exist = e.fetchone()
             if exist == None:
                 if selfPas == currAdmin.password:
                     choice = messagebox.askyesno(
                         "Confirm", "Do you want to proceed?")
                     if choice:
-                        a = empCon.cursor()
-                        a.execute("INSERT INTO employee VALUES (?, ?, ?,?)",
+                        
+                        e.execute("INSERT INTO employee VALUES (?, ?, ?,?)",
                                   (ecode,name, user, pas))
                         empCon.commit()
                         messagebox.showinfo(
@@ -1094,9 +1091,9 @@ class ManageEmployee:
                     "Error", "Employee with username exists already!")
 
     def btn_view_report_command(self):
-        c = empCon.cursor()
-        c.execute("SELECT * FROM employee ORDER BY name ASC")
-        data = c.fetchall()        
+       
+        e.execute("SELECT * FROM employee ORDER BY name ASC")
+        data = e.fetchall()        
         htmlContent ='''
         <!DOCTYPE html>
         <html lang="en">
@@ -1146,9 +1143,9 @@ class ManageEmployee:
         if len(user) == 0 or len(selfPas) == 0:
             tk.messagebox.showerror("Error", "Fields Cannot be Empty")
         else:
-            c = empCon.cursor()
-            c.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
-            exist = c.fetchone()
+            
+            e.execute("SELECT * FROM employee WHERE username = (?)", (user, ))
+            exist = e.fetchone()
 
             if exist != None:
                 
@@ -1156,8 +1153,8 @@ class ManageEmployee:
                     choice = messagebox.askyesno(
                         "Confirm", "Do you want to proceed?")
                     if choice:
-                        a = empCon.cursor()
-                        a.execute(
+                        
+                        e.execute(
                             "DELETE FROM employee WHERE username = (?)", (user, ))
                         empCon.commit()
                         messagebox.showinfo(
@@ -1341,19 +1338,19 @@ class ManageItem:
             if len(name) == 0 or len(icode) == 0 or len(selfprice) == 0:
                 tk.messagebox.showerror("Error", "Fields Cannot be Empty")  
             else:
-                c = itemCon.cursor()
-                c.execute("SELECT * FROM items WHERE icode = (?)", (icode, ))
-                exist = c.fetchone()
+                
+                i.execute("SELECT * FROM items WHERE icode = (?)", (icode, ))
+                exist = i.fetchone()
                 if exist == None:
-                    name_isPresent = c.execute("SELECT * from items where name = (?)",(name)).fetchone()
+                    name_isPresent = i.execute("SELECT * from items where name = (?)",(name)).fetchone()
                     if name_isPresent == None:
                         print('------REACHED HERE------')
                         if selfprice == currAdmin.password:
                             choice = messagebox.askyesno(
                                 "Confirm", "Do you want to proceed?")
                             if choice:
-                                a = itemCon.cursor()
-                                a.execute("INSERT INTO items VALUES (?, ?, ?)",
+                                
+                                i.execute("INSERT INTO items VALUES (?, ?, ?)",
                                         (icode, name, price))
                                 itemCon.commit()
                                 messagebox.showinfo(
@@ -1372,9 +1369,9 @@ class ManageItem:
         self.window.destroy()
 
     def btn_view_report_command(self):
-        c = itemCon.cursor()
-        c.execute("SELECT * FROM items ORDER BY icode ASC")
-        data = c.fetchall()        
+        
+        i.execute("SELECT * FROM items ORDER BY icode ASC")
+        data = i.fetchall()        
         htmlContent ='''
         <!DOCTYPE html>
         <html lang="en">
@@ -1424,9 +1421,9 @@ class ManageItem:
         if len(icode) == 0 or len(selfPas) == 0:
             tk.messagebox.showerror("Error", "Fields Cannot be Empty")
         else:
-            c = itemCon.cursor()
-            c.execute("SELECT * FROM items WHERE icode = (?)", (icode, ))
-            exist = c.fetchone()
+            
+            i.execute("SELECT * FROM items WHERE icode = (?)", (icode, ))
+            exist = i.fetchone()
 
             if exist != None:
                 
@@ -1434,8 +1431,8 @@ class ManageItem:
                     choice = messagebox.askyesno(
                         "Confirm", "Do you want to proceed?")
                     if choice:
-                        a = itemCon.cursor()
-                        a.execute(
+                        
+                        i.execute(
                             "DELETE FROM items WHERE icode = (?)", (icode, ))
                         itemCon.commit()
                         messagebox.showinfo(
@@ -1515,7 +1512,34 @@ class ResetDatabase:
         self.rest_btn["command"] = self.reset_btn_command
         
     def reset_btn_command(self):
-        pass
+        import os
+        import sys
+        import shutil
+        
+        pas = self.password.get()
+        if pas == currAdmin.password:
+            ans = messagebox.askyesno("Proceed", "Do you want to Continue?")
+            if ans:
+                
+                a.close()
+                e.close()
+                i.close()
+                o.close()
+                r.close()
+                
+                adminCon.close()
+                empCon.close()
+                itemCon.close()
+                orderCon.close()
+                restCon.close()
+
+                shutil.rmtree("Database")
+                
+                messagebox.showinfo("Success", "All files succesfully deleted!")
+                self.window.destroy()
+                
+        else:
+            messagebox.showerror("Error", "Wrong Password")
     
 class StartUp:
     def __init__(self, root):
@@ -1531,7 +1555,7 @@ class StartUp:
 
         root.title("Restraunt Management System")
         width = 1200
-        height = 650
+        height = 700
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
@@ -1545,16 +1569,17 @@ class StartUp:
         self.label_panel["fg"] = fg_panel
         self.label_panel["bg"] = bg_panel
         self.label_panel["justify"] = "center"
-        self.label_panel["text"] = "StartUp Mode"
+        self.label_panel["text"] = "STARTUP MODE"
         self.label_panel.place(x=0,y=0,width=1200,height=90)
 
         self.label_heading=tk.Label(root)
-        ft = tkFont.Font(family='Roboto', size=30)
+        ft = tkFont.Font(family='Roboto', size=20)
         self.label_heading["font"] = ft
         self.label_heading["fg"] = "#333333"
         self.label_heading["bg"] = bg_main
         self.label_heading["justify"] = "center"
-        self.label_heading["text"] = "Enter Following details To SetUp you software"
+        self.label_heading["text"] = "Enter the following details To Setup you software"
+        self.label_heading["wraplength"] = 1100
         self.label_heading.place(x=0,y=100,width=1200,height=50)
 
         self.label_admin=tk.Label(root)
@@ -1674,6 +1699,26 @@ class StartUp:
         self.name_employee["text"] = ""
         self.name_employee.place(x=220,y=480,width=305,height=30)
 
+
+       
+        self.label_usernmae_employee=tk.Label(root)
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.label_usernmae_employee["font"] = ft
+        self.label_usernmae_employee["fg"] = "#333333"
+        self.label_usernmae_employee["bg"] = bg_main
+        self.label_usernmae_employee["justify"] = "center"
+        self.label_usernmae_employee["text"] = "Username:"
+        self.label_usernmae_employee.place(x=57,y=520,width=110,height=40)
+        
+        self.username_employee=tk.Entry(root)
+        self.username_employee["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.username_employee["font"] = ft
+        self.username_employee["fg"] = "#333333"
+        self.username_employee["justify"] = "left"
+        self.username_employee["text"] = ""
+        self.username_employee.place(x=220,y=530,width=305,height=30)
+        
         self.label_password_employee=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
         self.label_password_employee["font"] = ft
@@ -1681,7 +1726,7 @@ class StartUp:
         self.label_password_employee["bg"] = bg_main
         self.label_password_employee["justify"] = "center"
         self.label_password_employee["text"] = "Password:"
-        self.label_password_employee.place(x=30,y=520,width=160,height=50)
+        self.label_password_employee.place(x=30,y=570,width=160,height=40)
 
         self.password_employee=tk.Entry(root)
         self.password_employee["borderwidth"] = "1px"
@@ -1690,7 +1735,7 @@ class StartUp:
         self.password_employee["fg"] = "#333333"
         self.password_employee["justify"] = "left"
         self.password_employee["text"] = ""
-        self.password_employee.place(x=220,y=530,width=305,height=30)
+        self.password_employee.place(x=220,y=580,width=305,height=30)
 
         self.btn_continue=tk.Button(root)
         self.btn_continue["bg"] = "#efefef"
@@ -1700,7 +1745,7 @@ class StartUp:
         self.btn_continue["bg"] = btn_bg
         self.btn_continue["justify"] = "center"
         self.btn_continue["text"] = "Continue"
-        self.btn_continue.place(x=400,y=600,width=368,height=41)
+        self.btn_continue.place(x=400,y=650,width=368,height=41)
         self.btn_continue["command"] = self.btn_continue_command
 
         self.label_name_restaurant=tk.Label(root)
@@ -1730,14 +1775,14 @@ class StartUp:
         self.label_address_restaurant["text"] = "Address:"
         self.label_address_restaurant.place(x=650,y=260,width=143,height=46)
 
-        self.name_restaurant=tk.Entry(root)
-        self.name_restaurant["borderwidth"] = "1px"
+        self.address_restaurant=tk.Entry(root)
+        self.address_restaurant["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=18)
-        self.name_restaurant["font"] = ft
-        self.name_restaurant["fg"] = "#333333"
-        self.name_restaurant["justify"] = "left"
-        self.name_restaurant["text"] = ""
-        self.name_restaurant.place(x=830,y=270,width=305,height=30)
+        self.address_restaurant["font"] = ft
+        self.address_restaurant["fg"] = "#333333"
+        self.address_restaurant["justify"] = "left"
+        self.address_restaurant["text"] = ""
+        self.address_restaurant.place(x=830,y=270,width=305,height=30)
 
         self.label_owner_restaurant=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
@@ -1819,19 +1864,87 @@ class StartUp:
         self.price_item["justify"] = "left"
         self.price_item["text"] = ""
         self.price_item.place(x=830,y=550,width=305,height=30)
-
+    
     def btn_continue_command(self):
-        pass
+        adminName = self.name_admin.get()
+        adminUser = self.username_admin.get()
+        adminPass = self.password_admin.get()
+        
+        empName = self.name_employee.get()
+        empUser = self.username_employee.get()
+        empCode = self.ecode_employee.get()
+        empPass = self.password_employee.get()
+        
+        restName = self.name_restaurant.get()
+        restAdd = self.address_restaurant.get()
+        restOwner = self.owner_restaurant.get()
+        
+        icode = self.icode_item.get()
+        iname = self.name_item.get()
+        iprice = self.price_item.get()
+        
+        if adminName == "" or adminUser == "" or adminPass == "" \
+            or empName == "" or empUser == "" or empCode == "" or empPass == "" \
+                or restName == "" or restAdd == "" or restOwner == "" or icode == "" \
+                    or iname == "" or iprice == "":
+            messagebox.showerror("Error", "Some Records Are Empty!")
+        else:
+            try:
+                iprice = float(iprice)
+                from generateDB import genDB
+                genDB()
+                
+                adminFile = "Database/admin.db"
+                restFile = "Database/rest.db"
+                empFile = "Database/emp.db"
+                itemFile = "Database/item.db"
+                
+                if not os.path.isdir("Database"):
+                    os.mkdir("Database")
+                
+                adminCon = sql.connect(adminFile)
+                restCon = sql.connect(restFile)
+                empCon = sql.connect(empFile)
+                itemCon = sql.connect(itemFile)
+        
+                a=adminCon.cursor()
+                r=restCon.cursor()
+                i=itemCon.cursor()
+                e=empCon.cursor()
+                
+                a.execute("INSERT INTO admin VALUES (?, ?, ?)", (adminName, adminUser, adminPass))
+                r.execute("INSERT INTO restaurant VALUES (?, ?, ?)", (restName, restAdd, restOwner))
+                e.execute("INSERT INTO employee VALUES (?, ?, ?, ?)", (empCode, empName, empUser, empPass))
+                i.execute("INSERT INTO items VALUES (?, ?, ?)", (icode, iname, iprice))                
+            
+                adminCon.commit()
+                empCon.commit()
+                itemCon.commit()
+                restCon.commit()
+                
+                messagebox.showinfo("Success!", "Your Sodtware Has been set up! Open the app again to use your software")
+                
+                a.close()
+                r.close()
+                i.close()
+                e.close()
+                
+                self.window.destroy()
+
+            except:
+                messagebox.showerror("Error", "Price is not a real number")
+                
+        
               
 if __name__ == "__main__":
     
     import os
     
-    adminFile = "SampleData/admin.db"
-    restFile = "SampleData/rest.db"
-    empFile = "SampleData/emp.db"
-    itemFile = "SampleData/item.db"
-    orderFile = "SampleData/order.db"
+    adminFile = "Database/admin.db"
+    restFile = "Database/rest.db"
+    empFile = "Database/emp.db"
+    itemFile = "Database/item.db"
+    orderFile = "Database/order.db"
     
     """
     
@@ -1842,13 +1955,12 @@ if __name__ == "__main__":
     """
     
     startup = 0
-    if not os.path.isdir("SampleData"):
+    if not os.path.isdir("Database"):
         #database folder does not exist
         startup = 1
     
     file_exist = [os.path.isfile(adminFile), os.path.isfile(restFile), 
-                  os.path.isfile(empFile), os.path.isfile(itemFile), 
-                  os.path.isfile(orderFile)]
+                  os.path.isfile(empFile), os.path.isfile(itemFile)]
     
     if not all(file_exist):
         #some or all files do not exist
@@ -1864,12 +1976,18 @@ if __name__ == "__main__":
         itemCon = sql.connect(itemFile)
         orderCon = sql.connect(orderFile)
         
-        # reading restaurant details
+        a = adminCon.cursor()
         r = restCon.cursor()
+        o = orderCon.cursor()
+        i = itemCon.cursor()
+        e = empCon.cursor()
+        
+        
         r.execute("SELECT * FROM restaurant")
         rd = r.fetchone()
         myRest = RESTAURANT(rd[0], rd[1], rd[2])
-    
+        r.close()
+        
         root = tk.Tk()
         app = Login(root)
         root.attributes('-topmost', 1)
@@ -1884,7 +2002,6 @@ if __name__ == "__main__":
         itemCon.close()
         orderCon.close()
         
-        
         if os.path.exists("adminData.html"):
             os.remove("adminData.html")
         if os.path.exists("empData.html"):
@@ -1895,4 +2012,7 @@ if __name__ == "__main__":
             os.remove("itemData.html")
     else:
         #enter startup mode
-        pass
+        root = tk.Tk()
+        app = StartUp(root)
+        root.mainloop()
+        
