@@ -388,9 +388,11 @@ class SalesPanel:
         Loading Items into the Menu
         """
         i.execute("SELECT * FROM items")
-        
         INVENTORY = i.fetchall()
         items = [thisItem[1] for thisItem in INVENTORY]
+        self.item_count = dict()
+        for item in items:
+            self.item_count[item] = 0
         self.clicked = tk.StringVar()
         self.clicked.set('Choose')
         self.item_list = tk.OptionMenu(root, self.clicked, *items)
@@ -487,9 +489,15 @@ class SalesPanel:
             qty = self.clicked_qty.get()
             i.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
             price = i.fetchone()[0]
+            self.item_count[itemChosen] +=  qty
             self.list_item["state"] = tk.NORMAL
-            already = self.list_item.size()
-            self.list_item.insert(already + 1, f"{itemChosen} - {qty} -- {price*qty}/-")
+            
+            self.list_item.delete(0,tk.END)
+            
+            for j in self.item_count:
+                if self.item_count[j] != 0:
+                    self.list_item.insert(tk.END, f"{j} - {self.item_count[j]} -- {price*self.item_count[j]}/-")
+                
             self.list_item["state"] = tk.DISABLED
             self.order.append((itemChosen, qty, price*qty))
 
@@ -1342,9 +1350,8 @@ class ManageItem:
                 i.execute("SELECT * FROM items WHERE icode = (?)", (icode, ))
                 exist = i.fetchone()
                 if exist == None:
-                    name_isPresent = i.execute("SELECT * from items where name = (?)",(name)).fetchone()
+                    name_isPresent = i.execute("SELECT * from items where name = (?)",(name, )).fetchone()
                     if name_isPresent == None:
-                        print('------REACHED HERE------')
                         if selfprice == currAdmin.password:
                             choice = messagebox.askyesno(
                                 "Confirm", "Do you want to proceed?")
