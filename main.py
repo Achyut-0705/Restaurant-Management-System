@@ -492,7 +492,7 @@ class SalesPanel:
             c.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
             price = c.fetchone()[0]
             
-            self.item_count[itemChosen] = self.item_count[itemChosen] + qty
+            self.item_count[itemChosen] +=  qty
             
             self.list_item["state"] = tk.NORMAL
             
