@@ -1,13 +1,11 @@
 import tkinter as tk
+from tkinter import *
 import tkinter.font as tkFont
-from classes import RESTAURANT, ITEM, ADMIN, EMPLOYEE
-from tkinter import messagebox
+from classes import *
 import sqlite3 as sql
+from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
-import webbrowser
-import tempfile
-import os
 
 myRest = None
 currAdmin = None
@@ -17,7 +15,6 @@ bg_main = "#d8c3a5"
 btn_bg = "#eae7dc"
 bg_panel = "#565958"
 fg_panel = "#e85a4f"
-
 
 class Login:
     def __init__(self, root):
@@ -555,7 +552,7 @@ class SalesPanel:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th><th> { record[2] } </th> <th> { record[3] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
-
+        import webbrowser
         webbrowser.open_new_tab('empData.html')        
         
     def validEmail(self,em):
@@ -594,6 +591,8 @@ class SalesPanel:
             orderCon.commit()
         
     def btn_print_command(self):
+        
+        import tempfile
         file = tempfile.mktemp(".txt")
         open(file, "w").write(self.receipt.cget("text"))
         os.startfile(file, "print")
@@ -878,7 +877,7 @@ class ManageAdmin:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
-
+        import webbrowser
         webbrowser.open_new_tab('adminData.html')
 
 
@@ -1136,7 +1135,7 @@ class ManageEmployee:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th><th> { record[2] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
-
+        import webbrowser
         webbrowser.open_new_tab('empData.html')
 
     def btn_delete_command(self):
@@ -1414,7 +1413,7 @@ class ManageItem:
                 code = f"<tr> <th> { record[0] } </th> <th> { record[1] } </th><th> { record[2] } </th> </tr>"
                 file.write(code)
             file.write("</table> </body> </html>")
-
+        import webbrowser
         webbrowser.open_new_tab('itemData.html')
 
     def btn_delete_command(self):
