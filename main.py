@@ -532,7 +532,7 @@ class SalesPanel:
                     border: 5px solid black;
                     }
                 body {
-                    background-color: #F371D1;
+                     
                     font-family: "Arial";
                     }
             </style> 
@@ -859,7 +859,7 @@ class ManageAdmin:
                     border: 5px solid black;
                     }
                 body {
-                    background-color: #F371D1;
+                     
                     font-family: "Arial";
                     }
             </style> 
@@ -1116,7 +1116,7 @@ class ManageEmployee:
                     border: 5px solid black;
                     }
                 body {
-                    background-color: #F371D1;
+                     
                     font-family: "Arial";
                     }
             </style> 
@@ -1394,7 +1394,7 @@ class ManageItem:
                     border: 5px solid black;
                     }
                 body {
-                    background-color: #F371D1;
+                     
                     font-family: "Arial";
                     }
             </style> 
@@ -1518,46 +1518,75 @@ class ResetDatabase:
         pass
               
 if __name__ == "__main__":
-
+    
+    import os
+    
     adminFile = "SampleData/admin.db"
     restFile = "SampleData/rest.db"
     empFile = "SampleData/emp.db"
     itemFile = "SampleData/item.db"
     orderFile = "SampleData/order.db"
     
-    adminCon = sql.connect(adminFile)
-    restCon = sql.connect(restFile)
-    empCon = sql.connect(empFile)
-    itemCon = sql.connect(itemFile)
-    orderCon = sql.connect(orderFile)
+    """
     
-    # reading restaurant details
-    r = restCon.cursor()
-    r.execute("SELECT * FROM restaurant")
-    rd = r.fetchone()
-    myRest = RESTAURANT(rd[0], rd[1], rd[2])
-
-    root = tk.Tk()
-    app = Login(root)
-    root.attributes('-topmost', 1)
-    root.focus_force()
-    ico = tk.PhotoImage(file='icon\icon.png')
-    root.iconphoto(True, ico)
-    root.mainloop()
-
-    adminCon.close()
-    restCon.close()
-    empCon.close()
-    itemCon.close()
-    orderCon.close()
+    Check if DataBase exists and determine 
+    wether to enter startup mode or
+    normal mode
     
-    import os
-    if os.path.exists("adminData.html"):
-        os.remove("adminData.html")
-    if os.path.exists("empData.html"):
-        os.remove("empData.html")
-    if os.path.exists("orderData.html"):
-        os.remove("orderData.html")
-    if os.path.exists("itemData.html"):
-        os.remove("itemData.html")
+    """
+    
+    startup = 0
+    if not os.path.isdir("SampleData"):
+        #database folder does not exist
+        startup = 1
+    
+    file_exist = [os.path.isfile(adminFile), os.path.isfile(restFile), 
+                  os.path.isfile(empFile), os.path.isfile(itemFile), 
+                  os.path.isfile(orderFile)]
+    
+    if not all(file_exist):
+        #some or all files do not exist
+        startup = 1
         
+    if startup == 0:
+        
+        #enter normal login panel mode
+        
+        adminCon = sql.connect(adminFile)
+        restCon = sql.connect(restFile)
+        empCon = sql.connect(empFile)
+        itemCon = sql.connect(itemFile)
+        orderCon = sql.connect(orderFile)
+        
+        # reading restaurant details
+        r = restCon.cursor()
+        r.execute("SELECT * FROM restaurant")
+        rd = r.fetchone()
+        myRest = RESTAURANT(rd[0], rd[1], rd[2])
+    
+        root = tk.Tk()
+        app = Login(root)
+        root.attributes('-topmost', 1)
+        root.focus_force()
+        ico = tk.PhotoImage(file='icon\icon.png')
+        root.iconphoto(True, ico)
+        root.mainloop()
+    
+        adminCon.close()
+        restCon.close()
+        empCon.close()
+        itemCon.close()
+        orderCon.close()
+        
+        
+        if os.path.exists("adminData.html"):
+            os.remove("adminData.html")
+        if os.path.exists("empData.html"):
+            os.remove("empData.html")
+        if os.path.exists("orderData.html"):
+            os.remove("orderData.html")
+        if os.path.exists("itemData.html"):
+            os.remove("itemData.html")
+    else:
+        #enter startup mode
+        pass
