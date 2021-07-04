@@ -141,7 +141,6 @@ class Login:
                 tk.messagebox.showinfo("Logged In", "Successfully Logged In")
                 self.window.destroy()
                 root = tk.Tk()
-                print('made it here')
                 app = SalesPanel(root)
                 root.mainloop()
             else:
@@ -494,7 +493,6 @@ class SalesPanel:
             price = c.fetchone()[0]
             
             self.item_count[itemChosen] = self.item_count[itemChosen] + qty
-            print(self.item_count)
             
             self.list_item["state"] = tk.NORMAL
             
@@ -1359,7 +1357,6 @@ class ManageItem:
                 if exist == None:
                     name_isPresent = c.execute("SELECT * from items where name = (?)",(name)).fetchone()
                     if name_isPresent == None:
-                        print('------REACHED HERE------')
                         if selfprice == currAdmin.password:
                             choice = messagebox.askyesno(
                                 "Confirm", "Do you want to proceed?")
