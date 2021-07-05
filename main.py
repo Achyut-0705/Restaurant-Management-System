@@ -591,8 +591,8 @@ class SalesPanel:
             for it in item_list:
                 # rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
                 # name - quantity - price
-                temp = it.replace(' -- ',' ').replace('/-','').replace(' - ',' ').strip()
-                item, count, total_price = temp.split(' ')
+                temp = it.replace(' -- ','-').replace('/-','').replace(' - ','-').strip()
+                item, count, total_price = temp.split('-')
                 total_price = float(total_price)
                 total += total_price
                 rec += f"\n{item}\t{count}\t{total_price}/-"
