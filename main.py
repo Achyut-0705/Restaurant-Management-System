@@ -603,6 +603,23 @@ class SalesPanel:
             
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
+            
+            import smtplib
+            from email.message import EmailMessage
+            import socket
+            socket.getaddrinfo('localhost', 465)
+            
+            msg = EmailMessage()
+            msg["Subject"] = f"Your Order from {myRest.name}"
+            msg["From"] = myRest.name
+            msg["To"] = email  
+            msg.set_content(self.receipt.cget("text"))
+            
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server.login("restrolabs@gmail.com", "Restro@labs123")
+            server.send_message(msg)
+            server.quit()
+            
         
     def btn_print_command(self):
         
