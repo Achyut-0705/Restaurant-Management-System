@@ -591,8 +591,8 @@ class SalesPanel:
             for it in item_list:
                 # rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
                 # name - quantity - price
-                temp = it.replace(' -- ',' ').replace('/-','').replace(' - ',' ').strip()
-                item, count, total_price = temp.split(' ')
+                temp = it.replace(' -- ','-').replace('/-','').replace(' - ','-').strip()
+                item, count, total_price = temp.split('-')
                 total_price = float(total_price)
                 total += total_price
                 rec += f"\n{item}\t{count}\t{total_price}/-"
@@ -603,6 +603,23 @@ class SalesPanel:
             
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
+            
+            import smtplib
+            from email.message import EmailMessage
+            import socket
+            socket.getaddrinfo('localhost', 465)
+            
+            msg = EmailMessage()
+            msg["Subject"] = f"Your Order from {myRest.name}"
+            msg["From"] = myRest.name
+            msg["To"] = email  
+            msg.set_content(self.receipt.cget("text"))
+            
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server.login("restrolabs@gmail.com", "Restro@labs123")
+            server.send_message(msg)
+            server.quit()
+            
         
     def btn_print_command(self):
         
