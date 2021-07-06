@@ -6,6 +6,7 @@ import sqlite3 as sql
 from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
+import threading
 
 
 myRest = None
@@ -451,7 +452,8 @@ class SalesPanel:
         self.btn_gen_receipt["bg"] = btn_bg
         self.btn_gen_receipt["text"] = "Generate Receipt"
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
-        self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
+        # self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
+        self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command_part1
 
         self.receipt = tk.Label(root)
         self.receipt["font"] = ft
@@ -568,7 +570,12 @@ class SalesPanel:
         if domain == "" or '.' not in domain or '.' == domain[-1] or '.' == domain[0]:
             return False
         return True        
-        
+    
+    def btn_gen_receipt_command_part1(self):
+        a = threading.Thread(target=self.btn_gen_receipt)
+        a.daemon(True)
+        a.start()    
+    
     def btn_gen_receipt_command(self):
         name = self.name_customer.get()
         email = self.email_customer.get()
