@@ -1,3 +1,6 @@
+#import os
+#os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+
 import tkinter as tk
 from tkinter import *
 import tkinter.font as tkFont
@@ -143,6 +146,8 @@ class Login:
                 self.window.destroy()
                 root = tk.Tk()
                 app = SalesPanel(root)
+                root.attributes('-topmost', 1)
+                root.focus_force()
                 root.mainloop()
             else:
                 tk.messagebox.showerror(
@@ -286,6 +291,7 @@ class SalesPanel:
         global currEmp
 
         self.root = root
+        
         root.title("Sales Panel")
         width = 1280
         height = 720
@@ -362,7 +368,7 @@ class SalesPanel:
         self.list_item["fg"] = "#333333"
         self.list_item["justify"] = "left"
         self.list_item["state"] = tk.DISABLED
-        self.list_item.place(x=500, y=350, width=374, height=267)
+        self.list_item.place(x=500, y=350, width=725, height=267)
 
         self.btn_add_item = tk.Button(root)
         self.btn_add_item["bg"] = "#efefef"
@@ -452,8 +458,8 @@ class SalesPanel:
         self.btn_gen_receipt["bg"] = btn_bg
         self.btn_gen_receipt["text"] = "Generate Receipt"
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
-        # self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
-        self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command_part1
+        self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
+        #self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command_part1
 
         self.receipt = tk.Label(root)
         self.receipt["font"] = ft
@@ -461,7 +467,7 @@ class SalesPanel:
         self.receipt["justify"] = "center"
         self.receipt["bg"] = bg_panel
         self.receipt["text"] = "RECEIPT"
-        self.receipt.place(x=900, y=350, width=330, height=267)
+        #self.receipt.place(x=900, y=350, width=330, height=267)
 
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -482,6 +488,7 @@ class SalesPanel:
         self.btn_logout["text"] = "Log Out"
         self.btn_logout.place(x=1070, y=640, width=160, height=50)
         self.btn_logout["command"] = self.btn_logout_command
+        
     
     def btn_add_item_command(self):
         itemChosen = self.clicked.get()
@@ -607,6 +614,7 @@ class SalesPanel:
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
             self.receipt["text"] = rec
             
+<<<<<<< Updated upstream
             frame = ttk.Frame(self.root, width=300, height=267)
             frame.grid(row = 900,column = 350)
             canvas = Canvas(frame)
@@ -618,6 +626,10 @@ class SalesPanel:
             canvas2 = ttk.Frame(canvas)
             canvas.create_window((0,0),window = canvas2, anchor = 'nw')
             ttk.Label(canvas2, text = self.receipt['text']).pack()
+=======
+            
+
+>>>>>>> Stashed changes
             
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
@@ -637,6 +649,36 @@ class SalesPanel:
             server.login("restrolabs@gmail.com", "Restro@labs123")
             server.send_message(msg)
             server.quit()
+            
+            self.name_customer['state'] = 'disabled'            
+            self.email_customer['state'] = 'disabled'  
+            top = Toplevel(self.root)
+            top.title("View Receipt")
+            width = 400
+            height = 267
+            screenwidth = top.winfo_screenwidth()
+            screenheight = top.winfo_screenheight()
+            alignstr = '%dx%d+%d+%d' % (width, height,
+                                    (screenwidth - width) / 2, (screenheight - height) / 2)
+            top.geometry(alignstr)
+            top.resizable(width=False, height=False)
+            top.configure(background=bg_main)
+            frame = ttk.Frame(top, width=300, height=267)
+            frame.grid(row = 900,column = 350)
+            canvas = Canvas(frame)
+            canvas.pack(side = tk.LEFT)
+            scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
+            scrollbar.pack(side = tk.RIGHT, fill = 'y')
+            canvas.configure(yscrollcommand = scrollbar.set)
+            canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+            canvas2 = ttk.Frame(canvas)
+            canvas.create_window((0,0),window = canvas2, anchor = 'nw')
+            ttk.Label(canvas2, text = self.receipt['text']).pack()
+            top.attributes('-topmost', 1)
+            top.focus_force()
+            top.mainloop()
+            
+            
             
         
     def btn_print_command(self):
