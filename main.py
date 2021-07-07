@@ -452,15 +452,21 @@ class SalesPanel:
         self.btn_gen_receipt["text"] = "Generate Receipt"
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
         self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
-
+        
         self.receipt = tk.Label(root)
         self.receipt["font"] = ft
         self.receipt["fg"] = "white"
         self.receipt["justify"] = "center"
         self.receipt["bg"] = bg_panel
-        self.receipt["text"] = "RECEIPT"
         self.receipt.place(x=900, y=350, width=330, height=267)
-
+        
+        self.receipt_main = tk.Entry(root)
+        self.receipt_main["font"] = ft
+        self.receipt_main["fg"] = "white"
+        self.receipt_main["justify"] = "center"
+        self.receipt_main["bg"] = bg_panel
+        self.receipt_main.place(x=900, y=350, width = 330, height = 267)
+        
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
         self.btn_print["font"] = ft
