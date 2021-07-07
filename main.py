@@ -614,22 +614,6 @@ class SalesPanel:
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
             self.receipt["text"] = rec
             
-<<<<<<< Updated upstream
-            frame = ttk.Frame(self.root, width=300, height=267)
-            frame.grid(row = 900,column = 350)
-            canvas = Canvas(frame)
-            canvas.pack(side = tk.LEFT)
-            scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
-            scrollbar.pack(side = tk.RIGHT, fill = 'y')
-            canvas.configure(yscrollcommand = scrollbar.set)
-            canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-            canvas2 = ttk.Frame(canvas)
-            canvas.create_window((0,0),window = canvas2, anchor = 'nw')
-            ttk.Label(canvas2, text = self.receipt['text']).pack()
-=======
-            
-
->>>>>>> Stashed changes
             
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
