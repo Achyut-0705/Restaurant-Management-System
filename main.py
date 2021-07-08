@@ -7,7 +7,6 @@ from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
 
-
 myRest = None
 currAdmin = None
 currEmp = None
@@ -483,7 +482,7 @@ class SalesPanel:
         self.btn_gen_receipt["bg"] = btn_bg
         self.btn_gen_receipt["text"] = "Generate Receipt"
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
-        self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
+        self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
 
         self.receipt = tk.Label(root)
         self.receipt["font"] = ft
@@ -492,13 +491,6 @@ class SalesPanel:
         self.receipt["bg"] = bg_panel
         self.receipt["text"] = "RECEIPT"
         self.receipt.place(x=900, y=350, width=330, height=267)
-        
-        # self.receipt_main = tk.Entry(root)
-        # self.receipt_main["font"] = ft
-        # self.receipt_main["fg"] = "white"
-        # self.receipt_main["justify"] = "center"
-        # self.receipt_main["bg"] = bg_panel
-        # self.receipt_main.place(x=900, y=350, width = 330, height = 267)
         
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -526,8 +518,6 @@ class SalesPanel:
             messagebox.showerror("Error", "Choose an item")
         else:
             qty = self.clicked_qty.get()
-            i.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
-            price = i.fetchone()[0]
             self.item_count[itemChosen] +=  qty
             self.list_item["state"] = tk.NORMAL
             
@@ -535,6 +525,8 @@ class SalesPanel:
             
             for j in self.item_count:
                 if self.item_count[j] != 0:
+                    i.execute("SELECT price FROM items where name = (?)", (j, ))
+                    price = i.fetchone()[0]
                     self.list_item.insert(tk.END, f"{j} - {self.item_count[j]} -- {price*self.item_count[j]}/-")
                 
             self.list_item["state"] = tk.DISABLED
@@ -623,12 +615,10 @@ class SalesPanel:
             self.receipt["justify"] = "left"
             rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
             total =0
-            # item_list = i.execute('select * from items').fetchall()
             
             item_list = self.list_item.get(0,tk.END) 
             
             for it in item_list:
-                # rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
                 # name - quantity - price
                 temp = it.replace(' -- ','-').replace('/-','').replace(' - ','-').strip()
                 item, count, total_price = temp.split('-')
