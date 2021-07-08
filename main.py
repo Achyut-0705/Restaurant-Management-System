@@ -6,7 +6,6 @@ import sqlite3 as sql
 from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
-import threading
 
 
 myRest = None
@@ -226,8 +225,19 @@ class AdminPanel:
         self.btn_logout["fg"] = "#000000"
         self.btn_logout["justify"] = "center"
         self.btn_logout["text"] = "LOG OUT"
-        self.btn_logout.place(x=375, y=420, width=200, height=50)
+        self.btn_logout.place(x=490, y=420, width=200, height=50)
         self.btn_logout["command"] = self.btn_logout_command
+        
+        self.btn_about = tk.Button(root)
+        self.btn_about["bg"] = btn_bg
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.btn_about["font"] = ft
+        self.btn_about["fg"] = "#000000"
+        self.btn_about["justify"] = "center"
+        self.btn_about["text"] = "ABOUT"
+        self.btn_about.place(x=255, y=420, width=200, height=50)
+        self.btn_about["command"] = self.btn_about_command
+
 
         self.btn_manage_item = tk.Button(root)
         self.btn_manage_item["bg"] = btn_bg
@@ -276,7 +286,28 @@ class AdminPanel:
         top = Toplevel(self.window)
         app = ManageAdmin(top)
         top.mainloop()
+    
+    def btn_about_command(self):
+        about= f""" ABOUT
+---------------------------------------
+RESTAURANT DETAILS:
 
+{myRest.name}
+{myRest.address}
+{myRest.owner}
+---------------------------------------
+DEVELOPED BY:
+
+Antriksh Sharma        - 20070122021
+Achyut Shukla          - 20070122005
+Anupam Muralidharan    - 20070122022
+Aakashkumar Holikatti  - 20070122011
+Abhay Mishra           - 20070122003
+
+Thankyou for using our Software!
+        """
+        
+        messagebox.showinfo("About", about)
 
 class SalesPanel:
     def __init__(self, root):
