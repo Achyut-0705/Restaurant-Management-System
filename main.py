@@ -9,8 +9,6 @@ import sqlite3 as sql
 from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
-import threading
-
 
 myRest = None
 currAdmin = None
@@ -231,8 +229,19 @@ class AdminPanel:
         self.btn_logout["fg"] = "#000000"
         self.btn_logout["justify"] = "center"
         self.btn_logout["text"] = "LOG OUT"
-        self.btn_logout.place(x=375, y=420, width=200, height=50)
+        self.btn_logout.place(x=490, y=420, width=200, height=50)
         self.btn_logout["command"] = self.btn_logout_command
+        
+        self.btn_about = tk.Button(root)
+        self.btn_about["bg"] = btn_bg
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.btn_about["font"] = ft
+        self.btn_about["fg"] = "#000000"
+        self.btn_about["justify"] = "center"
+        self.btn_about["text"] = "ABOUT"
+        self.btn_about.place(x=255, y=420, width=200, height=50)
+        self.btn_about["command"] = self.btn_about_command
+
 
         self.btn_manage_item = tk.Button(root)
         self.btn_manage_item["bg"] = btn_bg
@@ -281,7 +290,28 @@ class AdminPanel:
         top = Toplevel(self.window)
         app = ManageAdmin(top)
         top.mainloop()
+    
+    def btn_about_command(self):
+        about= f""" ABOUT
+---------------------------------------
+RESTAURANT DETAILS:
 
+{myRest.name}
+{myRest.address}
+{myRest.owner}
+---------------------------------------
+DEVELOPED BY:
+
+Antriksh Sharma        - 20070122021
+Achyut Shukla          - 20070122005
+Anupam Muralidharan    - 20070122022
+Aakashkumar Holikatti  - 20070122011
+Abhay Mishra           - 20070122003
+
+Thankyou for using our Software!
+        """
+        
+        messagebox.showinfo("About", about)
 
 class SalesPanel:
     def __init__(self, root):
@@ -468,7 +498,8 @@ class SalesPanel:
         self.receipt["bg"] = bg_panel
         self.receipt["text"] = "RECEIPT"
         #self.receipt.place(x=900, y=350, width=330, height=267)
-
+        self.receipt.place(x=900, y=350, width=330, height=267)
+        
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
         self.btn_print["font"] = ft
@@ -496,8 +527,6 @@ class SalesPanel:
             messagebox.showerror("Error", "Choose an item")
         else:
             qty = self.clicked_qty.get()
-            i.execute("SELECT price FROM items where name = (?)", (itemChosen, ))
-            price = i.fetchone()[0]
             self.item_count[itemChosen] +=  qty
             self.list_item["state"] = tk.NORMAL
             
@@ -505,6 +534,8 @@ class SalesPanel:
             
             for j in self.item_count:
                 if self.item_count[j] != 0:
+                    i.execute("SELECT price FROM items where name = (?)", (j, ))
+                    price = i.fetchone()[0]
                     self.list_item.insert(tk.END, f"{j} - {self.item_count[j]} -- {price*self.item_count[j]}/-")
                 
             self.list_item["state"] = tk.DISABLED
@@ -578,11 +609,6 @@ class SalesPanel:
             return False
         return True        
     
-    def btn_gen_receipt_command_part1(self):
-        a = threading.Thread(target=self.btn_gen_receipt)
-        a.daemon(True)
-        a.start()    
-    
     def btn_gen_receipt_command(self):
         name = self.name_customer.get()
         email = self.email_customer.get()
@@ -598,12 +624,10 @@ class SalesPanel:
             self.receipt["justify"] = "left"
             rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
             total =0
-            # item_list = i.execute('select * from items').fetchall()
             
             item_list = self.list_item.get(0,tk.END) 
             
             for it in item_list:
-                # rec += f"\n{it[0]}\t{it[1]}\t{it[2]}/-"
                 # name - quantity - price
                 temp = it.replace(' -- ','-').replace('/-','').replace(' - ','-').strip()
                 item, count, total_price = temp.split('-')
