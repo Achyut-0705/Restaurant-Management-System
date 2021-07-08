@@ -319,6 +319,7 @@ class SalesPanel:
         global bg_main
         global btn_bg
         global currEmp
+        self.receipt = ''
 
         self.root = root
         
@@ -491,14 +492,6 @@ class SalesPanel:
         self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
         #self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command_part1
 
-        self.receipt = tk.Label(root)
-        self.receipt["font"] = ft
-        self.receipt["fg"] = "white"
-        self.receipt["justify"] = "center"
-        self.receipt["bg"] = bg_panel
-        self.receipt["text"] = "RECEIPT"
-        #self.receipt.place(x=900, y=350, width=330, height=267)
-        self.receipt.place(x=900, y=350, width=330, height=267)
         
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -615,13 +608,11 @@ class SalesPanel:
         
         if self.list_item.size() > 4:
             ft = tkFont.Font(family='Roboto', size=10, weight="bold")
-            self.receipt["font"] = ft
         if not self.validEmail(email):
             messagebox.showerror("Error", "Invalid E-mail!")
         elif len(name)==0 or len(email)==0:
             messagebox("Error", "Fields cannot be empty")
         else:
-            self.receipt["justify"] = "left"
             rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
             total =0
             
@@ -636,7 +627,7 @@ class SalesPanel:
                 rec += f"\n{item}\t{count}\t{total_price}/-"
         
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
-            self.receipt["text"] = rec
+            self.receipt = rec
             
             
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
@@ -651,7 +642,7 @@ class SalesPanel:
             msg["Subject"] = f"Your Order from {myRest.name}"
             msg["From"] = myRest.name
             msg["To"] = email  
-            msg.set_content(self.receipt.cget("text"))
+            msg.set_content(self.receipt)
             
             server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             server.login("restrolabs@gmail.com", "Restro@labs123")
@@ -684,7 +675,7 @@ class SalesPanel:
             receipt_text['font'] = ft
             receipt_text['bg'] = bg_main
             receipt_text.delete(1.0,'end')
-            receipt_text.insert(1.0,self.receipt['text'])            
+            receipt_text.insert(1.0,self.receipt)            
             receipt_text['state'] = 'disabled'
             receipt_text.pack()
             
@@ -697,7 +688,7 @@ class SalesPanel:
         
         import tempfile
         file = tempfile.mktemp(".txt")
-        open(file, "w").write(self.receipt.cget("text"))
+        open(file, "w").write(self.receipt)
         os.startfile(file, "print")
 
     def btn_logout_command(self):
