@@ -1,5 +1,5 @@
 import os
-os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+# os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 from tkinter import *
@@ -636,35 +636,38 @@ class SalesPanel:
             
             self.name_customer['state'] = 'disabled'            
             self.email_customer['state'] = 'disabled'  
-            top = Toplevel(self.root)
+            top = Toplevel()
             top.title("View Receipt")
             width = 400
-            height = 267
+            height = 300
             screenwidth = top.winfo_screenwidth()
             screenheight = top.winfo_screenheight()
             alignstr = '%dx%d+%d+%d' % (width, height,
                                     (screenwidth - width) / 2, (screenheight - height) / 2)
             top.geometry(alignstr)
-            #top.resizable(width=False, height=True)
-            top.configure(background=bg_main)
-            frame = ttk.Frame(top, width=300, height=267)
-            frame.grid(row = 900,column = 350)
-            canvas = Canvas(frame)
-            canvas.pack(side = tk.LEFT)
-            scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
-            scrollbar.pack(side = tk.RIGHT, fill = 'y')
-            canvas.configure(yscrollcommand = scrollbar.set)
-            canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-            canvas2 = ttk.Frame(canvas)
-            canvas.create_window((0,0),window = canvas2, anchor = 'nw')
-            ft = tkFont.Font(family='Roboto', size=15, weight="bold")
-            tk.Label(canvas2, text = self.receipt['text'], font = ft, bg = bg_main, fg = "#000000", justify = 'left', width = 200, height = 200).pack()
+            top.resizable(width=False, height=False)
+            top.configure(background=bg_main)           
+            
+            frame = tk.Frame(top, width=300, height=267)
+            
+            scrollbar = Scrollbar(top)
+            scrollbar.pack( side = RIGHT, fill = Y )
+            
+            ft = tkFont.Font(family='Roboto', size=18, weight="bold")
+            receipt_text = tk.Text(top,yscrollcommand = scrollbar.set)
+            receipt_text['width'] = width
+            receipt_text['height'] = height
+            receipt_text['font'] = ft
+            receipt_text['bg'] = bg_main
+            receipt_text.delete(1.0,'end')
+            receipt_text.insert(1.0,self.receipt['text'])            
+            receipt_text['state'] = 'disabled'
+            receipt_text.pack()
+            
             top.attributes('-topmost', 1)
             top.focus_force()
-            top.mainloop()
-            
-            
-            
+            frame.place(x = 0,y = 0)
+            top.mainloop()           
         
     def btn_print_command(self):
         
