@@ -1,5 +1,5 @@
-#import os
-#os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+import os
+os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
 
 import tkinter as tk
 from tkinter import *
@@ -645,7 +645,7 @@ class SalesPanel:
             alignstr = '%dx%d+%d+%d' % (width, height,
                                     (screenwidth - width) / 2, (screenheight - height) / 2)
             top.geometry(alignstr)
-            top.resizable(width=False, height=False)
+            #top.resizable(width=False, height=True)
             top.configure(background=bg_main)
             frame = ttk.Frame(top, width=300, height=267)
             frame.grid(row = 900,column = 350)
@@ -657,7 +657,8 @@ class SalesPanel:
             canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
             canvas2 = ttk.Frame(canvas)
             canvas.create_window((0,0),window = canvas2, anchor = 'nw')
-            ttk.Label(canvas2, text = self.receipt['text']).pack()
+            ft = tkFont.Font(family='Roboto', size=15, weight="bold")
+            tk.Label(canvas2, text = self.receipt['text'], font = ft, bg = bg_main, fg = "#000000", justify = 'left', width = 200, height = 200).pack()
             top.attributes('-topmost', 1)
             top.focus_force()
             top.mainloop()
