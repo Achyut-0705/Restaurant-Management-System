@@ -664,7 +664,7 @@ class SalesPanel:
             top.configure(background=bg_main)           
             
             frame = tk.Frame(top, width=300, height=267)
-            
+            frame.configure(bg = bg_main)
             scrollbar = Scrollbar(top)
             scrollbar.pack( side = RIGHT, fill = Y )
             
@@ -677,7 +677,9 @@ class SalesPanel:
             receipt_text.delete(1.0,'end')
             receipt_text.insert(1.0,self.receipt)            
             receipt_text['state'] = 'disabled'
-            receipt_text.pack()
+            receipt_text['relief'] = tk.FLAT
+            receipt_text.tag_add("center", 1.0, "end")
+            receipt_text.pack(padx = 20, pady=20)
             
             top.attributes('-topmost', 1)
             top.focus_force()
