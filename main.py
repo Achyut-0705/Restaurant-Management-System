@@ -6,7 +6,6 @@ import sqlite3 as sql
 from tkinter import messagebox
 from tkinter import Toplevel, ttk
 from tkinter import *
-import threading
 
 myRest = None
 currAdmin = None
@@ -142,6 +141,8 @@ class Login:
                 self.window.destroy()
                 root = tk.Tk()
                 app = SalesPanel(root)
+                root.attributes('-topmost', 1)
+                root.focus_force()
                 root.mainloop()
             else:
                 tk.messagebox.showerror(
@@ -224,8 +225,19 @@ class AdminPanel:
         self.btn_logout["fg"] = "#000000"
         self.btn_logout["justify"] = "center"
         self.btn_logout["text"] = "LOG OUT"
-        self.btn_logout.place(x=375, y=420, width=200, height=50)
+        self.btn_logout.place(x=490, y=420, width=200, height=50)
         self.btn_logout["command"] = self.btn_logout_command
+        
+        self.btn_about = tk.Button(root)
+        self.btn_about["bg"] = btn_bg
+        ft = tkFont.Font(family='Roboto', size=18)
+        self.btn_about["font"] = ft
+        self.btn_about["fg"] = "#000000"
+        self.btn_about["justify"] = "center"
+        self.btn_about["text"] = "ABOUT"
+        self.btn_about.place(x=255, y=420, width=200, height=50)
+        self.btn_about["command"] = self.btn_about_command
+
 
         self.btn_manage_item = tk.Button(root)
         self.btn_manage_item["bg"] = btn_bg
@@ -274,6 +286,28 @@ class AdminPanel:
         top = Toplevel(self.window)
         app = ManageAdmin(top)
         top.mainloop()
+    
+    def btn_about_command(self):
+        about= f""" ABOUT
+---------------------------------------
+RESTAURANT DETAILS:
+
+{myRest.name}
+{myRest.address}
+{myRest.owner}
+---------------------------------------
+DEVELOPED BY:
+
+Antriksh Sharma        - 20070122021
+Achyut Shukla          - 20070122005
+Anupam Muralidharan    - 20070122022
+Aakashkumar Holikatti  - 20070122011
+Abhay Mishra           - 20070122003
+
+Thankyou for using our Software!
+        """
+        
+        messagebox.showinfo("About", about)
 
 class SalesPanel:
     def __init__(self, root):
@@ -281,8 +315,10 @@ class SalesPanel:
         global bg_main
         global btn_bg
         global currEmp
+        self.receipt = ''
 
         self.root = root
+        
         root.title("Sales Panel")
         width = 1280
         height = 720
@@ -359,7 +395,7 @@ class SalesPanel:
         self.list_item["fg"] = "#333333"
         self.list_item["justify"] = "left"
         self.list_item["state"] = tk.DISABLED
-        self.list_item.place(x=500, y=350, width=374, height=267)
+        self.list_item.place(x=500, y=350, width=725, height=267)
 
         self.btn_add_item = tk.Button(root)
         self.btn_add_item["bg"] = "#efefef"
@@ -451,20 +487,13 @@ class SalesPanel:
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
         self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
 
-        self.receipt = tk.Label(root)
-        self.receipt["font"] = ft
-        self.receipt["fg"] = "white"
-        self.receipt["justify"] = "center"
-        self.receipt["bg"] = bg_panel
-        self.receipt["text"] = "RECEIPT"
-        self.receipt.place(x=900, y=350, width=330, height=267)
-        
-        # self.receipt_main = tk.Entry(root)
-        # self.receipt_main["font"] = ft
-        # self.receipt_main["fg"] = "white"
-        # self.receipt_main["justify"] = "center"
-        # self.receipt_main["bg"] = bg_panel
-        # self.receipt_main.place(x=900, y=350, width = 330, height = 267)
+        # self.receipt = tk.Label(root)
+        # self.receipt["font"] = ft
+        # self.receipt["fg"] = "white"
+        # self.receipt["justify"] = "center"
+        # self.receipt["bg"] = bg_panel
+        # self.receipt["text"] = "RECEIPT"
+        # self.receipt.place(x=900, y=350, width=330, height=267)
         
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -485,6 +514,7 @@ class SalesPanel:
         self.btn_logout["text"] = "Log Out"
         self.btn_logout.place(x=1070, y=640, width=160, height=50)
         self.btn_logout["command"] = self.btn_logout_command
+        
     
     def btn_add_item_command(self):
         itemChosen = self.clicked.get()
@@ -530,7 +560,7 @@ class SalesPanel:
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="shortcut icon" href="./icon/icon2.ico">
+            <link rel="shortcut icon" href="./icon/icon.ico">
             <title> Order Database </title>
             <style> table, th, tr 
                 { font-size: 30px; padding: 5px; }
@@ -580,13 +610,11 @@ class SalesPanel:
         
         if self.list_item.size() > 4:
             ft = tkFont.Font(family='Roboto', size=10, weight="bold")
-            self.receipt["font"] = ft
         if not self.validEmail(email):
             messagebox.showerror("Error", "Invalid E-mail!")
         elif len(name)==0 or len(email)==0:
             messagebox("Error", "Fields cannot be empty")
         else:
-            self.receipt["justify"] = "left"
             rec = f"-------------RECEIPT-------------\nName: {name}\nEmail: {email}\nServed By: {currEmp.Name}\n\nItem\tQty\tPrice"
             total =0
             
@@ -601,8 +629,8 @@ class SalesPanel:
                 rec += f"\n{item}\t{count}\t{total_price}/-"
         
             rec += f"\n-----------------\nTotal: {total}/- (Tax Inclusive)"
-            self.receipt["text"] = rec
-
+            self.receipt = rec
+            
             
             o.execute("INSERT INTO orders (cust_name, cust_email, total) VALUES (?, ?, ?)", (name, email, total))
             orderCon.commit()
@@ -616,19 +644,55 @@ class SalesPanel:
             msg["Subject"] = f"Your Order from {myRest.name}"
             msg["From"] = myRest.name
             msg["To"] = email  
-            msg.set_content(self.receipt.cget("text"))
+            msg.set_content(self.receipt)
             
             server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             server.login("restrolabs@gmail.com", "Restro@labs123")
             server.send_message(msg)
             server.quit()
             
+            self.name_customer['state'] = 'disabled'            
+            self.email_customer['state'] = 'disabled'  
+            top = Toplevel()
+            top.title("View Receipt")
+            width = 600
+            height = 300
+            screenwidth = top.winfo_screenwidth()
+            screenheight = top.winfo_screenheight()
+            alignstr = '%dx%d+%d+%d' % (width, height,
+                                    (screenwidth - width) / 2, (screenheight - height) / 2)
+            top.geometry(alignstr)
+            top.resizable(width=False, height=False)
+            top.configure(background=bg_main)           
+            
+            frame = tk.Frame(top, width=600, height=267)
+            frame.configure(bg = bg_main)
+            scrollbar = Scrollbar(top)
+            scrollbar.pack( side = RIGHT, fill = Y )
+            
+            ft = tkFont.Font(family='Roboto', size=18, weight="bold")
+            receipt_text = tk.Text(top,yscrollcommand = scrollbar.set)
+            receipt_text['width'] = width
+            receipt_text['height'] = height
+            receipt_text['font'] = ft
+            receipt_text['bg'] = bg_main
+            receipt_text.delete(1.0,'end')
+            receipt_text.insert(1.0,self.receipt)            
+            receipt_text['state'] = 'disabled'
+            receipt_text['relief'] = tk.FLAT
+            receipt_text.tag_add("center", 1.0, "end")
+            receipt_text.pack(padx = 20, pady=20)
+            
+            top.attributes('-topmost', 1)
+            top.focus_force()
+            frame.place(x = 0,y = 0)
+            top.mainloop()           
         
     def btn_print_command(self):
         
         import tempfile
         file = tempfile.mktemp(".txt")
-        open(file, "w").write(self.receipt.cget("text"))
+        open(file, "w").write(self.receipt)
         os.startfile(file, "print")
 
     def btn_logout_command(self):
@@ -1653,6 +1717,7 @@ class StartUp:
         self.name_admin["justify"] = "left"
         self.name_admin["text"] = ""
         self.name_admin.place(x=220,y=220,width=305,height=30)
+        self.name_admin.focus()
 
         self.label_username_admin=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
@@ -2050,5 +2115,7 @@ if __name__ == "__main__":
         #enter startup mode
         root = tk.Tk()
         app = StartUp(root)
+        root.attributes('-topmost', 1)
+        root.focus_force()
         root.mainloop()
         
