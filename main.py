@@ -1,6 +1,3 @@
-import os
-# os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
-
 import tkinter as tk
 from tkinter import *
 import tkinter.font as tkFont
@@ -1715,6 +1712,7 @@ class StartUp:
         self.name_admin["justify"] = "left"
         self.name_admin["text"] = ""
         self.name_admin.place(x=220,y=220,width=305,height=30)
+        self.name_admin.focus()
 
         self.label_username_admin=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
@@ -2112,5 +2110,7 @@ if __name__ == "__main__":
         #enter startup mode
         root = tk.Tk()
         app = StartUp(root)
+        root.attributes('-topmost', 1)
+        root.focus_force()
         root.mainloop()
         
