@@ -147,8 +147,7 @@ class Login:
                 tk.messagebox.showerror(
                     "Wrong Credentials", "Username/Password Incorrect")
         except:
-            tk.messagebox.showerror("Record Not Found", "No Such User Found")
-        
+            tk.messagebox.showerror("Record Not Found", "No Such User Found")        
 
 class AdminPanel:
     def __init__(self, root):
@@ -275,7 +274,6 @@ class AdminPanel:
         top = Toplevel(self.window)
         app = ManageAdmin(top)
         top.mainloop()
-
 
 class SalesPanel:
     def __init__(self, root):
@@ -451,12 +449,7 @@ class SalesPanel:
         self.btn_gen_receipt["bg"] = btn_bg
         self.btn_gen_receipt["text"] = "Generate Receipt"
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
-<<<<<<< HEAD
-        # self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
-        self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
-=======
         self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
->>>>>>> 07efae2c3db08725ef67964438cfa2712fe6aea6
 
         self.receipt = tk.Label(root)
         self.receipt["font"] = ft
@@ -750,15 +743,6 @@ class ManageAdmin:
         self.add_name.place(x=190, y=230, width=250, height=33)
         self.add_name.focus()
 
-        self.delete_username = tk.Entry(root)
-        self.delete_username["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
-        self.delete_username["font"] = ft
-        self.delete_username["fg"] = "#333333"
-        self.delete_username["justify"] = "left"
-        self.delete_username["text"] = ""
-        self.delete_username.place(x=590, y=290, width=350, height=33)
-
         self.add_username = tk.Entry(root)
         self.add_username["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -777,6 +761,15 @@ class ManageAdmin:
         self.add_password["text"] = ""
         self.add_password["show"] = "*"
         self.add_password.place(x=190, y=360, width=250, height=33)
+        
+        self.delete_username = tk.Entry(root)
+        self.delete_username["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
+        self.delete_username["font"] = ft
+        self.delete_username["fg"] = "#333333"
+        self.delete_username["justify"] = "left"
+        self.delete_username["text"] = ""
+        self.delete_username.place(x=590, y=290, width=350, height=33)
 
         self.admin_confirm_password = tk.Entry(root)
         self.admin_confirm_password["borderwidth"] = "1px"
