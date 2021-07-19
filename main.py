@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import os
 # os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
+=======
+>>>>>>> 2c546a6cde1aaca8c49801dbb24225cae6b04998
 import tkinter as tk
 from tkinter import *
 import tkinter.font as tkFont
@@ -150,8 +153,7 @@ class Login:
                 tk.messagebox.showerror(
                     "Wrong Credentials", "Username/Password Incorrect")
         except:
-            tk.messagebox.showerror("Record Not Found", "No Such User Found")
-        
+            tk.messagebox.showerror("Record Not Found", "No Such User Found")        
 
 class AdminPanel:
     def __init__(self, root):
@@ -498,9 +500,7 @@ class SalesPanel:
         self.btn_gen_receipt["bg"] = btn_bg
         self.btn_gen_receipt["text"] = "Generate Receipt"
         self.btn_gen_receipt.place(x=500, y=640, width=380, height=50)
-        self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command
-        #self.btn_gen_receipt["command"] =  self.btn_gen_receipt_command_part1
-
+        self.btn_gen_receipt["command"] = self.btn_gen_receipt_command
         
         self.btn_print = tk.Button(root)
         self.btn_print["bg"] = "#efefef"
@@ -567,7 +567,7 @@ class SalesPanel:
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="shortcut icon" href="./icon/icon2.ico">
+            <link rel="shortcut icon" href="./icon/icon.ico">
             <title> Order Database </title>
             <style> table, th, tr 
                 { font-size: 30px; padding: 5px; }
@@ -662,7 +662,7 @@ class SalesPanel:
             self.email_customer['state'] = 'disabled'  
             top = Toplevel()
             top.title("View Receipt")
-            width = 400
+            width = 600
             height = 300
             screenwidth = top.winfo_screenwidth()
             screenheight = top.winfo_screenheight()
@@ -672,7 +672,7 @@ class SalesPanel:
             top.resizable(width=False, height=False)
             top.configure(background=bg_main)           
             
-            frame = tk.Frame(top, width=300, height=267)
+            frame = tk.Frame(top, width=600, height=267)
             frame.configure(bg = bg_main)
             scrollbar = Scrollbar(top)
             scrollbar.pack( side = RIGHT, fill = Y )
@@ -819,15 +819,6 @@ class ManageAdmin:
         self.add_name.place(x=190, y=230, width=250, height=33)
         self.add_name.focus()
 
-        self.delete_username = tk.Entry(root)
-        self.delete_username["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
-        self.delete_username["font"] = ft
-        self.delete_username["fg"] = "#333333"
-        self.delete_username["justify"] = "left"
-        self.delete_username["text"] = ""
-        self.delete_username.place(x=590, y=290, width=350, height=33)
-
         self.add_username = tk.Entry(root)
         self.add_username["borderwidth"] = "1px"
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
@@ -846,6 +837,15 @@ class ManageAdmin:
         self.add_password["text"] = ""
         self.add_password["show"] = "*"
         self.add_password.place(x=190, y=360, width=250, height=33)
+        
+        self.delete_username = tk.Entry(root)
+        self.delete_username["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Roboto', size=15, weight="bold")
+        self.delete_username["font"] = ft
+        self.delete_username["fg"] = "#333333"
+        self.delete_username["justify"] = "left"
+        self.delete_username["text"] = ""
+        self.delete_username.place(x=590, y=290, width=350, height=33)
 
         self.admin_confirm_password = tk.Entry(root)
         self.admin_confirm_password["borderwidth"] = "1px"
@@ -1729,6 +1729,7 @@ class StartUp:
         self.name_admin["justify"] = "left"
         self.name_admin["text"] = ""
         self.name_admin.place(x=220,y=220,width=305,height=30)
+        self.name_admin.focus()
 
         self.label_username_admin=tk.Label(root)
         ft = tkFont.Font(family='Roboto', size=18)
@@ -2126,5 +2127,7 @@ if __name__ == "__main__":
         #enter startup mode
         root = tk.Tk()
         app = StartUp(root)
+        root.attributes('-topmost', 1)
+        root.focus_force()
         root.mainloop()
         
