@@ -1,6 +1,5 @@
 import os
 # os.chdir('c:/Users/Anupam/Documents/GitHub/Restaurant-Management-System')
-
 import tkinter as tk
 from tkinter import *
 import tkinter.font as tkFont
@@ -344,7 +343,17 @@ class SalesPanel:
         self.empLoginHead.place(x=0, y=0, width=1280, height=150)
 
         ft = tkFont.Font(family='Roboto', size=15, weight="bold")
-
+        
+        self.stats = tk.Button(root)
+        self.stats["bg"] = "#efefef"
+        self.stats["font"] = ft
+        self.stats["fg"] = "#000000"
+        self.stats["justify"] = "center"
+        self.stats["bg"] = btn_bg
+        self.stats["text"] = "ORDER STATS"
+        self.stats.place(x=100, y=160, width=250, height=50)
+        self.stats["command"] = self.btn_stats
+        
         self.name_emp = tk.Label(root)
         self.name_emp["font"] = ft
         self.name_emp["fg"] = "#333333"
@@ -699,6 +708,11 @@ class SalesPanel:
         app = Login(root)
         root.focus_force()
         root.mainloop()
+    
+    def btn_stats(self):
+         o = orderCon.cursor()
+         
+         o.close()
 
 class ManageAdmin:
     def __init__(self, root):
